@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bugfixer27.github.io/florianweather/sitemap.xml
+Sitemap: https://floriankm.com/sitemap.xml
