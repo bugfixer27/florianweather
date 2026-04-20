@@ -2,7 +2,7 @@
 
 A no-backend, no-build meteorological dashboard for point forecasts, radar, satellite imagery, model graphics, space weather, and marine analysis.
 
-Open `weather-dashboard.html` directly in a browser. No API keys, installs, build tools, or local server are required.
+Open `index.html` directly in a browser. No API keys, installs, build tools, or local server are required.
 
 ## What Works
 
@@ -18,7 +18,8 @@ Open `weather-dashboard.html` directly in a browser. No API keys, installs, buil
 
 ```text
 .
-├── weather-dashboard.html   # Static HTML shell and page markup
+├── index.html               # Static dashboard and GitHub Pages entrypoint
+├── weather-dashboard.html   # Backward-compatible redirect to index.html
 ├── assets/
 │   ├── app.js               # Dashboard logic, data loading, charts, maps
 │   └── styles.css           # Visual system and responsive layout
@@ -31,20 +32,19 @@ Open `weather-dashboard.html` directly in a browser. No API keys, installs, buil
 
 ## Editing
 
-Most content changes live in `weather-dashboard.html`. Data behavior and controls live in `assets/app.js`. Visual polish and responsive layout live in `assets/styles.css`.
+Most content changes live in `index.html`. Data behavior and controls live in `assets/app.js`. Visual polish and responsive layout live in `assets/styles.css`.
 
 For quick testing, open:
 
 ```text
-weather-dashboard.html
-weather-dashboard.html?page=satslider
-weather-dashboard.html?page=space
-weather-dashboard.html?page=marine
+index.html
+index.html?page=satslider
+index.html?page=space
+index.html?page=marine
 ```
 
 The query-string pages are supported so individual dashboard pages can be checked directly.
 
 ## GitHub Pages
 
-This project is ready for GitHub Pages. After pushing to GitHub, enable Pages for the repository from the `main` branch and root folder.
-
+This project is ready for GitHub Pages. After pushing to GitHub, enable Pages from GitHub Actions in the repository settings. The included workflow deploys the static site from `main` without a build step.
