@@ -57,26 +57,52 @@
     .about-page-name { font-size: 26px; font-weight: 700; margin: 0 0 6px; letter-spacing: 0.2px; }
     .about-page-tagline { font-size: 14px; color: var(--text-dim); margin: 0 0 12px; max-width: 520px; line-height: 1.55; }
     .about-section { margin-bottom: 28px; padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: rgba(10, 15, 26, 0.45); }
-    .about-section h2 { font-size: 11.5px; text-transform: uppercase; letter-spacing: 1.3px; color: var(--accent); font-family: var(--mono); margin: 0 0 12px; }
+    .about-section h2 { font-size: 11.5px; text-transform: uppercase; letter-spacing: 1.3px; color: var(--accent); font-family: var(--mono); margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+    .about-section h2::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); }
     .about-section p, .about-section li { font-size: 13.5px; color: var(--text-dim); line-height: 1.65; }
     .about-section ul { padding-left: 18px; margin: 0; }
     .about-section li { margin-bottom: 6px; }
     .about-section li b { color: var(--text); }
     .about-contact-link { color: var(--accent); }
-    @media (max-width: 600px) { .about-page-hero { flex-direction: column; text-align: center; } }
+
+    .highlights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 28px; }
+    .highlight-card { padding: 14px; border: 1px solid var(--border); border-radius: 10px; background: rgba(10, 15, 26, 0.5); text-align: center; }
+    .highlight-card .hl-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-faint); font-family: var(--mono); margin-bottom: 6px; }
+    .highlight-card .hl-value { font-size: 15px; color: var(--text); font-weight: 600; }
+
+    .research-card { padding: 18px; margin-top: 12px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; background: linear-gradient(180deg, rgba(15,22,36,0.7), rgba(10,15,26,0.6)); }
+    .research-title { font-size: 15px; color: var(--text); font-weight: 600; margin: 0 0 4px; }
+    .research-meta { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-faint); font-family: var(--mono); margin-bottom: 12px; }
+    .research-meta .dot { margin: 0 6px; opacity: 0.5; }
+    .research-abstract { font-size: 13px; color: var(--text-dim); line-height: 1.7; margin: 0 0 14px; }
+    .research-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
+    .research-stat { padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: rgba(5, 8, 14, 0.6); text-align: center; }
+    .research-stat .rs-value { font-size: 16px; font-weight: 700; font-family: var(--mono); color: var(--accent-2); margin-bottom: 2px; }
+    .research-stat .rs-value.neg { color: var(--accent-warm); }
+    .research-stat .rs-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-faint); font-family: var(--mono); }
+    .research-poster-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 8px 14px; font-size: 12px; font-family: var(--mono); letter-spacing: 0.4px; color: var(--accent); border: 1px solid rgba(94,184,255,0.35); border-radius: 8px; text-decoration: none; transition: all 0.15s; }
+    .research-poster-link:hover { background: rgba(94,184,255,0.1); border-color: var(--accent); }
+
+    .quote-block { padding: 16px 20px; margin: 0 0 28px; border-left: 3px solid var(--accent-violet); background: rgba(180,140,255,0.05); border-radius: 0 10px 10px 0; font-size: 13.5px; color: var(--text-dim); line-height: 1.7; font-style: italic; }
+
+    @media (max-width: 600px) {
+        .about-page-hero { flex-direction: column; text-align: center; }
+        .highlights-grid { grid-template-columns: 1fr; }
+        .research-stats { grid-template-columns: repeat(2, 1fr); }
+    }
 </style>
 </head>
 <body>
 
 <div class="about-page-header">
-    <a class="back-link" href="/">&larr; Back to Weather Dashboard</a>
+    <a class="back-link" href="index.html">&larr; Back to Weather Dashboard</a>
 </div>
 
 <div class="about-page-hero">
     <img class="about-page-photo" src="data:image/jpeg;base64,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" alt="Florian Kroker McCormack" />
     <div>
         <h1 class="about-page-name">Florian Kroker McCormack</h1>
-        <p class="about-page-tagline">High-school weather enthusiast and meteorology hobbyist at Riverdale Country School. Builder of <a href="/" style="color:var(--accent)">floriankm.com</a> — a personal forecasting and weather analysis workstation.</p>
+        <p class="about-page-tagline">High-school weather enthusiast and meteorology hobbyist at Riverdale Country School. Builder of <a href="index.html" style="color:var(--accent)">floriankm.com</a> — a personal forecasting and weather analysis workstation.</p>
         <div class="about-meta">
             <a class="btn" href="mailto:floriangkmcc@gmail.com">floriangkmcc@gmail.com</a>
             <span class="tag cool">Riverdale Country School</span>
@@ -84,10 +110,67 @@
     </div>
 </div>
 
+<div class="highlights-grid">
+    <div class="highlight-card">
+        <div class="hl-label">Based in</div>
+        <div class="hl-value">New York, NY</div>
+    </div>
+    <div class="highlight-card">
+        <div class="hl-label">School</div>
+        <div class="hl-value">Riverdale Country</div>
+    </div>
+    <div class="highlight-card">
+        <div class="hl-label">Focus</div>
+        <div class="hl-value">Meteorology</div>
+    </div>
+</div>
+
+<div class="quote-block">
+    &ldquo;Most consumer weather apps collapse the atmosphere into a single number. A real forecaster looks at many products at once and works a disciplined workflow.&rdquo;
+</div>
+
 <div class="about-section">
     <h2>About Florian</h2>
-    <p>Florian Kroker McCormack is a high-school student with a deep interest in meteorology, weather forecasting, and atmospheric science. Rather than using consumer weather apps that reduce the atmosphere to a single temperature number, Florian built his own personal weather dashboard at <a href="/" class="about-contact-link">floriankm.com</a> — a full forecaster-workflow workstation using live public data from NOAA, NWS, SPC, and more.</p>
+    <p>Florian Kroker McCormack is a high-school student with a deep interest in meteorology, weather forecasting, and atmospheric science. Rather than using consumer weather apps that reduce the atmosphere to a single temperature number, Florian built his own personal weather dashboard at <a href="index.html" class="about-contact-link">floriankm.com</a> — a full forecaster-workflow workstation using live public data from NOAA, NWS, SPC, and more.</p>
     <p>Florian's approach to weather mirrors that of a professional meteorologist: start with satellite imagery, move to radar, check surface observations and mesoanalysis, then work through short-range models and ensemble guidance. This Florian weather dashboard is the product of that disciplined curiosity.</p>
+</div>
+
+<div class="about-section">
+    <h2>Research</h2>
+    <div class="research-card">
+        <div class="research-title">Weather, soil, and the stem-width response of mature northern red oaks (<i>Quercus rubra</i>)</div>
+        <div class="research-meta">Field study <span class="dot">&bull;</span> 07/27/25 &ndash; 09/02/25 <span class="dot">&bull;</span> 10-minute sampling</div>
+        <p class="research-abstract">
+            Trees are a natural way to sequester CO<sub>2</sub> from the atmosphere, helping decrease global greenhouse gases and stabilize weather conditions. However, deforestation and climate change are increasingly compromising the conditions trees rely on to survive. This project asked: <b>how do weather and soil variables drive short-term expansion and contraction (tree width) of mature northern red oaks (<i>Quercus rubra</i>)?</b>
+        </p>
+        <p class="research-abstract">
+            We measured wind, solar radiation, air temperature, precipitation, soil water content, soil temperature, matric potential, and tree width every 10 minutes from 07/27/25 to 09/02/25. We hypothesized that precipitation-driven increases in soil water availability would increase tree width, whereas higher radiation/temperature and stronger wind gusts would drive contraction.
+        </p>
+        <p class="research-abstract">
+            Linear regression models support this hypothesis. Soil temperature, solar radiation, and air temperature were all negatively correlated with tree width (<i>p</i> &lt; 0.01), while gust speed showed a weaker negative correlation. Precipitation-driven variables were positively correlated with tree width — most strongly during a large rainfall event on Aug 20, and across the full matric-potential trend.
+        </p>
+
+        <div class="research-stats">
+            <div class="research-stat">
+                <div class="rs-value neg">R&sup2; = 0.87</div>
+                <div class="rs-label">Solar radiation (&minus;)</div>
+            </div>
+            <div class="research-stat">
+                <div class="rs-value neg">R&sup2; = 0.55</div>
+                <div class="rs-label">Soil temp (&minus;)</div>
+            </div>
+            <div class="research-stat">
+                <div class="rs-value">R&sup2; = 0.93</div>
+                <div class="rs-label">Aug 20 rainfall (+)</div>
+            </div>
+            <div class="research-stat">
+                <div class="rs-value">R&sup2; = 0.93</div>
+                <div class="rs-label">Matric potential (+)</div>
+            </div>
+        </div>
+
+        <a class="research-poster-link" href="https://docs.google.com/presentation/d/1tUtyUy5prgTG65JW4rBUbGfjWZeiYEW1PifgloqxY2w/edit?usp=sharing" target="_blank" rel="noopener">View full research poster &rarr;</a>
+    </div>
 </div>
 
 <div class="about-section">
@@ -103,7 +186,7 @@
 
 <div class="about-section">
     <h2>The Florian weather dashboard</h2>
-    <p>The dashboard at <a href="/" class="about-contact-link">floriankm.com</a> is a single-page meteorology workstation with five main sections:</p>
+    <p>The dashboard at <a href="index.html" class="about-contact-link">floriankm.com</a> is a single-page meteorology workstation with five main sections:</p>
     <ul>
         <li><b>Main dashboard</b> — NWS point forecast, local diagnostics, radar, satellite, SPC mesoanalysis, model wall, severe weather desk, and marine/tropical tools</li>
         <li><b>Satellite loop</b> — Animated GOES-East loops across 8 sectors and 10 channels including GeoColor, clean IR, water vapor, and air-mass RGB</li>
