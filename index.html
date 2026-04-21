@@ -101,7 +101,85 @@
 <!-- Chart.js for meteograms -->
 <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-<link rel="stylesheet" href="assets/styles.css" />
+<link rel="stylesheet" href="assets/styles.css?v=20260421b" />
+<style>
+    .workflow-intro-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 18px;
+        padding: 20px;
+        border: 1px solid rgba(255,180,84,0.42);
+        border-left: 4px solid var(--accent-warm);
+        border-radius: var(--radius);
+        background:
+            radial-gradient(520px 240px at 0% 0%, rgba(255,180,84,0.14), transparent),
+            linear-gradient(180deg, rgba(15,22,36,0.82), rgba(10,15,26,0.72));
+        box-shadow: var(--shadow), 0 0 30px rgba(255,180,84,0.08);
+        position: relative;
+        overflow: hidden;
+    }
+    .workflow-intro-panel h2 {
+        margin: 0;
+        color: var(--text);
+        font-size: 20px;
+        line-height: 1.25;
+        letter-spacing: 0;
+        font-weight: 700;
+        overflow-wrap: anywhere;
+    }
+    .workflow-intro-panel p {
+        margin: 8px 0 0;
+        color: var(--text-dim);
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    .workflow-intro-panel a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 9px 18px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,180,84,0.72);
+        background: linear-gradient(180deg, #ffd28a, var(--accent-warm));
+        color: #180f03;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        text-decoration: none;
+        white-space: nowrap;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 0 22px rgba(255,180,84,0.24);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .workflow-intro-panel a:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.16) inset, 0 0 28px rgba(255,180,84,0.34);
+    }
+    @media (max-width: 900px) {
+        .workflow-intro-panel {
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+        .workflow-intro-panel a {
+            width: 100%;
+        }
+    }
+    @media (max-width: 640px) {
+        .workflow-intro-panel {
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .workflow-intro-panel h2 {
+            font-size: 16px;
+            line-height: 1.35;
+        }
+        .workflow-intro-panel p {
+            font-size: 12px;
+        }
+    }
+</style>
 </head>
 <body>
 
@@ -123,7 +201,7 @@
         <button class="page-tab" data-page="space">Space Weather</button>
         <button class="page-tab" data-page="marine">Marine</button>
     </nav>
-    <a class="about-nav-link" href="/about">About Florian</a>
+    <a class="about-nav-link" href="about.html">About Florian</a>
 
     <div class="header-spacer"></div>
 
@@ -190,7 +268,7 @@
         <h2 id="workflow-intro-title">This website has the products I wish I knew more about when I started forecasting in 8th grade.</h2>
         <p>The About Florian page also showcases my research and interviews.</p>
     </div>
-    <a href="/about">About Florian</a>
+    <a href="about.html">About Florian</a>
 </section>
 
 <!-- ==========================================
