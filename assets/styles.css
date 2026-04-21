@@ -1310,18 +1310,9 @@
     width: 88px;
     height: 88px;
     border-radius: 18px;
-    display: grid;
-    place-items: center;
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--bg-0);
-    background: conic-gradient(from 220deg,
-        var(--accent) 0deg, var(--accent-2) 90deg,
-        var(--accent-violet) 180deg, var(--accent-warm) 270deg,
-        var(--accent) 360deg);
-    box-shadow: 0 0 24px rgba(94,184,255,0.35), inset 0 0 0 2px rgba(255,255,255,0.15);
-    position: relative;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 24px rgba(94,184,255,0.35), 0 0 0 2px rgba(255,255,255,0.15);
 }
 .about-meta {
     display: flex;
