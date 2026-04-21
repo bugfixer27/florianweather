@@ -158,13 +158,13 @@
 <aside class="sidebar">
     <h3>Forecast Workflow</h3>
     <ol class="workflow-list" id="workflow-list">
+        <li data-target="section-models">Short-Range Models</li>
         <li data-target="section-conditions">Current Conditions</li>
         <li data-target="section-local-diagnostics">Local Diagnostics</li>
         <li data-target="section-satellite">Satellite</li>
         <li data-target="section-radar">Radar</li>
         <li data-target="section-surface">Surface &amp; Obs</li>
         <li data-target="section-meso">Mesoanalysis</li>
-        <li data-target="section-models">Short-Range Models</li>
         <li data-target="section-ensembles">Medium-Range &amp; Ensembles</li>
         <li data-target="section-severe">Severe</li>
         <li data-target="section-winter">Winter</li>
@@ -187,292 +187,7 @@
 <div class="page-view active" data-page-view="dashboard">
 
 <!-- ==========================================
-     1. CONDITIONS / POINT FORECAST
-     ========================================== -->
-<section class="panel" id="section-conditions">
-    <div class="panel-head">
-        <h2>Current Conditions &amp; Point Forecast</h2>
-        <div class="meta">
-            <span class="tag" id="cond-src">api.weather.gov</span>
-            <span id="cond-updated">—</span>
-        </div>
-    </div>
-
-    <div class="conditions-grid">
-        <div class="now-card">
-            <div class="now-loc" id="now-loc">Resolving location…</div>
-            <div class="now-temp">
-                <div class="t" id="now-temp">—</div>
-                <div class="unit" id="now-unit">°F</div>
-            </div>
-            <div class="now-cond" id="now-cond">—</div>
-            <div class="now-metrics">
-                <div class="metric"><div class="k">Dewpoint</div><div class="v" id="m-dewpt">—</div></div>
-                <div class="metric"><div class="k">Humidity</div><div class="v" id="m-rh">—</div></div>
-                <div class="metric"><div class="k">Wind</div><div class="v" id="m-wind">—</div></div>
-                <div class="metric"><div class="k">Gust</div><div class="v" id="m-gust">—</div></div>
-                <div class="metric"><div class="k">Pressure</div><div class="v" id="m-pres">—</div></div>
-                <div class="metric"><div class="k">Visibility</div><div class="v" id="m-vis">—</div></div>
-                <div class="metric"><div class="k">Ceiling</div><div class="v" id="m-ceil">—</div></div>
-                <div class="metric"><div class="k">Station</div><div class="v mono" id="m-stn" style="font-size:14px">—</div></div>
-            </div>
-        </div>
-
-        <div class="alerts-col">
-            <div class="panel-head" style="margin:0 0 4px">
-                <h2 style="font-size:12px">Active Alerts</h2>
-                <span class="meta" id="alerts-count">—</span>
-            </div>
-            <div id="alerts-list"><div class="skeleton" style="height:60px"></div></div>
-        </div>
-    </div>
-
-    <!-- Hourly forecast strip -->
-    <div class="panel-head" style="margin-top:18px">
-        <h2 style="font-size:12px">Next 24 Hours</h2>
-        <span class="meta">NWS gridpoint forecast</span>
-    </div>
-    <div class="hourly-strip" id="hourly-strip">
-        <div class="skeleton" style="height:70px; width:100%"></div>
-    </div>
-
-    <!-- Meteogram -->
-    <div class="panel-head" style="margin-top:14px">
-        <h2 style="font-size:12px">Meteogram &mdash; T / Td / Wind / Precip-chance</h2>
-        <span class="meta">7-day hourly from NWS</span>
-    </div>
-    <div class="meteogram-wrap">
-        <canvas id="meteogram"></canvas>
-    </div>
-</section>
-
-<!-- ==========================================
-     2. LOCAL DIAGNOSTICS
-     ========================================== -->
-<section class="panel" id="section-local-diagnostics">
-    <div class="panel-head">
-        <h2>Local Forecast Diagnostics</h2>
-        <div class="meta">
-            <span class="tag cool">NWS derived</span>
-            <span id="diag-updated">waiting for forecast</span>
-        </div>
-    </div>
-
-    <div class="diagnostic-grid" id="diagnostic-cards">
-        <div class="skeleton" style="height:96px"></div>
-        <div class="skeleton" style="height:96px"></div>
-        <div class="skeleton" style="height:96px"></div>
-        <div class="skeleton" style="height:96px"></div>
-        <div class="skeleton" style="height:96px"></div>
-        <div class="skeleton" style="height:96px"></div>
-    </div>
-
-    <div class="diagnostic-layout">
-        <div class="diagnostic-main">
-            <div class="panel-head tight">
-                <h2>48-Hour Impact Index</h2>
-                <span class="meta">temperature extremes, wind, precipitation, hazards</span>
-            </div>
-            <div class="impact-chart-wrap">
-                <canvas id="impact-chart"></canvas>
-            </div>
-
-            <div class="panel-head tight matrix-head">
-                <h2>Hourly Impact Matrix</h2>
-                <span class="meta">48-hour NWS hourly forecast</span>
-            </div>
-            <div class="weather-matrix" id="weather-matrix">
-                <div class="alert-empty">Forecast matrix loading.</div>
-            </div>
-        </div>
-
-        <div class="diagnostic-side">
-            <div class="mini-panel">
-                <div class="panel-head tight">
-                    <h2>Wind Rose</h2>
-                    <span class="meta">next 48h</span>
-                </div>
-                <canvas id="wind-rose" width="360" height="360"></canvas>
-            </div>
-
-            <div class="mini-panel">
-                <div class="panel-head tight">
-                    <h2>Weather Story</h2>
-                    <span class="meta" id="story-window">next 48h</span>
-                </div>
-                <div class="story-list" id="forecast-story">
-                    <div class="alert-empty">Forecast story loading.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ==========================================
-     3. SATELLITE
-     ========================================== -->
-<section class="panel" id="section-satellite">
-    <div class="panel-head">
-        <h2>Satellite &mdash; GOES-16 CONUS</h2>
-        <div class="meta">
-            <span class="tag">RAMMB / CIRA</span>
-            <span id="sat-updated">auto-refreshing</span>
-        </div>
-    </div>
-
-    <div class="tab-row" id="sat-tabs">
-        <div class="tab active" data-sat="GEOCOLOR">GeoColor</div>
-        <div class="tab" data-sat="13">IR 10.3 µm (Clean IR)</div>
-        <div class="tab" data-sat="08">Water Vapor (6.2 µm)</div>
-        <div class="tab" data-sat="AirMass">Air Mass RGB</div>
-        <div class="tab" data-sat="DayCloudPhase">Day Cloud Phase RGB</div>
-    </div>
-
-    <div class="sat-grid" id="sat-grid">
-        <!-- populated by JS -->
-    </div>
-
-    <div class="forecaster-note" style="margin-top:14px">
-        <strong>Why these channels matter</strong>
-        GeoColor blends visible + IR for intuitive context. Clean IR (Band 13) exposes deep convection and cloud-top temps. Water Vapor (Band 8) reveals mid/upper-trop moisture, jet streaks, and dry slots &mdash; essential for synoptic diagnosis. Air Mass RGB distinguishes stratospheric intrusions (red/orange) from tropical air (green) and is invaluable for cyclogenesis tracking. Day Cloud Phase highlights glaciation vs. supercooled water &mdash; key for severe convection and winter precip.
-    </div>
-</section>
-
-<!-- ==========================================
-     4. RADAR
-     ========================================== -->
-<section class="panel" id="section-radar">
-    <div class="panel-head">
-        <h2>Radar &mdash; Interactive Mosaic</h2>
-        <div class="meta">
-            <span class="tag">RainViewer &bull; NEXRAD / global composite</span>
-            <span id="radar-ts">—</span>
-        </div>
-    </div>
-
-    <div class="radar-body">
-        <div id="radar-map"></div>
-
-        <div class="radar-controls">
-            <div class="tab-row">
-                <div class="tab active" data-radar-mode="composite">Reflectivity</div>
-                <div class="tab" data-radar-mode="clouds">IR Clouds</div>
-            </div>
-
-            <div class="radar-time">
-                <span class="label">Frame</span>
-                <span id="radar-frame-time">loading…</span>
-            </div>
-
-            <div class="play-controls">
-                <button class="btn" id="radar-play">&#9654; Play</button>
-                <button class="btn btn-ghost" id="radar-prev">&lt;</button>
-                <button class="btn btn-ghost" id="radar-next">&gt;</button>
-            </div>
-
-            <label class="row mono dim" style="font-size:11px">
-                <input type="checkbox" id="radar-warnings-overlay" checked style="accent-color:var(--accent)">
-                NWS Watches / Warnings overlay
-            </label>
-
-            <div class="forecaster-note">
-                <strong>What to interrogate</strong>
-                Look for line structure (squall lines vs. discrete supercells), training echoes over the same watershed, hook signatures on the southwest flank of rotating storms, bow-echo apex rear-inflow jets, bright-band contamination near the freezing level, and three-body scatter spikes from large hail. Compare reflectivity trend across frames &mdash; intensity and motion vectors are as important as the current snapshot.
-            </div>
-
-            <a class="link-card" href="https://radar.weather.gov/" target="_blank" rel="noopener">
-                <h5>NWS Radar <span class="arrow">&rarr;</span></h5>
-                <p>Official single-site NEXRAD, velocity, spectrum width, and dual-pol products.</p>
-                <span class="attr">radar.weather.gov</span>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- ==========================================
-     5. SURFACE / OBS
-     ========================================== -->
-<section class="panel" id="section-surface">
-    <div class="panel-head">
-        <h2>Surface Analysis &amp; Observations</h2>
-        <div class="meta"><span class="tag">WPC &bull; IEM &bull; NWS</span></div>
-    </div>
-
-    <div class="two-col">
-        <div>
-            <div class="panel-head" style="margin:0 0 8px"><h2 style="font-size:12px">WPC Surface Analysis</h2></div>
-            <div style="border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#fff;">
-                <img id="wpc-sfc" src="https://www.wpc.ncep.noaa.gov/sfc/usfntsfcwbg.gif"
-                     alt="WPC surface analysis" loading="lazy"
-                     style="width:100%; display:block;"
-                     onerror="this.parentNode.innerHTML='<div style=padding:20px;color:var(--text-dim)>WPC image unavailable. <a href=https://www.wpc.ncep.noaa.gov/html/sfc2.shtml target=_blank>Open direct</a>.</div>'" />
-            </div>
-            <div class="forecaster-note" style="margin-top:10px">
-                <strong>Diagnose</strong>
-                Track surface lows, fronts, pressure falls/rises, and theta-e gradients. Drylines manifest as steep mixing-ratio discontinuities &mdash; watch for convergence along them. Warm fronts are preferred for isentropic ascent; cold fronts deliver sharp post-frontal drops in dewpoint and veering winds.
-            </div>
-        </div>
-
-        <div>
-            <div class="panel-head" style="margin:0 0 8px"><h2 style="font-size:12px">Station Plots &amp; Mesonet</h2></div>
-            <div class="link-grid">
-                <a class="link-card" href="https://mesonet.agron.iastate.edu/GIS/apps/rview/warnings.phtml" target="_blank" rel="noopener">
-                    <h5>IEM Mesonet Map <span class="arrow">&rarr;</span></h5>
-                    <p>Live METAR station plots, warnings overlays, and GIS tools.</p>
-                    <span class="attr">mesonet.agron.iastate.edu</span>
-                </a>
-                <a class="link-card" href="https://aviationweather.gov/data/metar/" target="_blank" rel="noopener">
-                    <h5>AWC METAR Viewer <span class="arrow">&rarr;</span></h5>
-                    <p>Raw METAR/TAF with decoded clouds, vis, and wind shifts.</p>
-                    <span class="attr">aviationweather.gov</span>
-                </a>
-                <a class="link-card" href="https://www.spc.noaa.gov/exper/mesoanalysis/" target="_blank" rel="noopener">
-                    <h5>SPC Mesoanalysis <span class="arrow">&rarr;</span></h5>
-                    <p>Real-time RAP-based mesoscale analysis: CAPE, shear, helicity, theta-e advection, moisture convergence.</p>
-                    <span class="attr">spc.noaa.gov</span>
-                </a>
-                <a class="link-card" href="https://mesonet.agron.iastate.edu/current/mcview.phtml" target="_blank" rel="noopener">
-                    <h5>IEM Current Conditions <span class="arrow">&rarr;</span></h5>
-                    <p>Regional dewpoint, wind gust, heat index, wet-bulb mesoscale plots.</p>
-                    <span class="attr">IEM / mesonet</span>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ==========================================
-     6. MESOANALYSIS (SPC)
-     ========================================== -->
-<section class="panel" id="section-meso">
-    <div class="panel-head">
-        <h2>SPC Mesoanalysis &mdash; Environment Diagnostics</h2>
-        <div class="meta"><span class="tag warm">convective</span><span class="tag cool">kinematics</span></div>
-    </div>
-
-    <div class="tab-row" id="meso-tabs">
-        <div class="tab active" data-meso="pmsl">MSLP / Wind</div>
-        <div class="tab" data-meso="sbcp">SB CAPE / CIN</div>
-        <div class="tab" data-meso="mlcp">ML CAPE / CIN</div>
-        <div class="tab" data-meso="mucp">MU CAPE / CIN</div>
-        <div class="tab" data-meso="eshr">Effective Bulk Shear</div>
-        <div class="tab" data-meso="srh3">0-3 km Storm-Relative Helicity</div>
-        <div class="tab" data-meso="stor">STP (fixed-layer)</div>
-        <div class="tab" data-meso="lr75">700-500 mb Lapse Rate</div>
-    </div>
-
-    <div class="model-view" style="min-height:420px" id="meso-view">
-        <div class="placeholder">loading SPC mesoanalysis…</div>
-    </div>
-
-    <div class="forecaster-note" style="margin-top:10px">
-        <strong>Interrogation sequence</strong>
-        CAPE tells you fuel; shear tells you organization; SRH tells you rotation potential; STP bundles them into a tornado parameter. Lapse rates &gt; 7.5 °C/km in the 700-500 mb layer suggest robust updraft acceleration and large-hail potential. Always cross-check with observed soundings, not just the mesoanalysis.
-    </div>
-</section>
-
-<!-- ==========================================
-     7. MODELS (short-range)
+     1. MODELS (short-range)
      ========================================== -->
 <section class="panel" id="section-models">
     <div class="panel-head">
@@ -544,6 +259,292 @@
                 <li><b>Snow fields</b> &mdash; compare accumulation/depth output against thermal profiles and DGZ quality.</li>
             </ul>
         </div>
+    </div>
+</section>
+
+
+<!-- ==========================================
+     2. CONDITIONS / POINT FORECAST
+     ========================================== -->
+<section class="panel" id="section-conditions">
+    <div class="panel-head">
+        <h2>Current Conditions &amp; Point Forecast</h2>
+        <div class="meta">
+            <span class="tag" id="cond-src">api.weather.gov</span>
+            <span id="cond-updated">—</span>
+        </div>
+    </div>
+
+    <div class="conditions-grid">
+        <div class="now-card">
+            <div class="now-loc" id="now-loc">Resolving location…</div>
+            <div class="now-temp">
+                <div class="t" id="now-temp">—</div>
+                <div class="unit" id="now-unit">°F</div>
+            </div>
+            <div class="now-cond" id="now-cond">—</div>
+            <div class="now-metrics">
+                <div class="metric"><div class="k">Dewpoint</div><div class="v" id="m-dewpt">—</div></div>
+                <div class="metric"><div class="k">Humidity</div><div class="v" id="m-rh">—</div></div>
+                <div class="metric"><div class="k">Wind</div><div class="v" id="m-wind">—</div></div>
+                <div class="metric"><div class="k">Gust</div><div class="v" id="m-gust">—</div></div>
+                <div class="metric"><div class="k">Pressure</div><div class="v" id="m-pres">—</div></div>
+                <div class="metric"><div class="k">Visibility</div><div class="v" id="m-vis">—</div></div>
+                <div class="metric"><div class="k">Ceiling</div><div class="v" id="m-ceil">—</div></div>
+                <div class="metric"><div class="k">Station</div><div class="v mono" id="m-stn" style="font-size:14px">—</div></div>
+            </div>
+        </div>
+
+        <div class="alerts-col">
+            <div class="panel-head" style="margin:0 0 4px">
+                <h2 style="font-size:12px">Active Alerts</h2>
+                <span class="meta" id="alerts-count">—</span>
+            </div>
+            <div id="alerts-list"><div class="skeleton" style="height:60px"></div></div>
+        </div>
+    </div>
+
+    <!-- Hourly forecast strip -->
+    <div class="panel-head" style="margin-top:18px">
+        <h2 style="font-size:12px">Next 24 Hours</h2>
+        <span class="meta">NWS gridpoint forecast</span>
+    </div>
+    <div class="hourly-strip" id="hourly-strip">
+        <div class="skeleton" style="height:70px; width:100%"></div>
+    </div>
+
+    <!-- Meteogram -->
+    <div class="panel-head" style="margin-top:14px">
+        <h2 style="font-size:12px">Meteogram &mdash; T / Td / Wind / Precip-chance</h2>
+        <span class="meta">7-day hourly from NWS</span>
+    </div>
+    <div class="meteogram-wrap">
+        <canvas id="meteogram"></canvas>
+    </div>
+</section>
+
+<!-- ==========================================
+     3. LOCAL DIAGNOSTICS
+     ========================================== -->
+<section class="panel" id="section-local-diagnostics">
+    <div class="panel-head">
+        <h2>Local Forecast Diagnostics</h2>
+        <div class="meta">
+            <span class="tag cool">NWS derived</span>
+            <span id="diag-updated">waiting for forecast</span>
+        </div>
+    </div>
+
+    <div class="diagnostic-grid" id="diagnostic-cards">
+        <div class="skeleton" style="height:96px"></div>
+        <div class="skeleton" style="height:96px"></div>
+        <div class="skeleton" style="height:96px"></div>
+        <div class="skeleton" style="height:96px"></div>
+        <div class="skeleton" style="height:96px"></div>
+        <div class="skeleton" style="height:96px"></div>
+    </div>
+
+    <div class="diagnostic-layout">
+        <div class="diagnostic-main">
+            <div class="panel-head tight">
+                <h2>48-Hour Impact Index</h2>
+                <span class="meta">temperature extremes, wind, precipitation, hazards</span>
+            </div>
+            <div class="impact-chart-wrap">
+                <canvas id="impact-chart"></canvas>
+            </div>
+
+            <div class="panel-head tight matrix-head">
+                <h2>Hourly Impact Matrix</h2>
+                <span class="meta">48-hour NWS hourly forecast</span>
+            </div>
+            <div class="weather-matrix" id="weather-matrix">
+                <div class="alert-empty">Forecast matrix loading.</div>
+            </div>
+        </div>
+
+        <div class="diagnostic-side">
+            <div class="mini-panel">
+                <div class="panel-head tight">
+                    <h2>Wind Rose</h2>
+                    <span class="meta">next 48h</span>
+                </div>
+                <canvas id="wind-rose" width="360" height="360"></canvas>
+            </div>
+
+            <div class="mini-panel">
+                <div class="panel-head tight">
+                    <h2>Weather Story</h2>
+                    <span class="meta" id="story-window">next 48h</span>
+                </div>
+                <div class="story-list" id="forecast-story">
+                    <div class="alert-empty">Forecast story loading.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     4. SATELLITE
+     ========================================== -->
+<section class="panel" id="section-satellite">
+    <div class="panel-head">
+        <h2>Satellite &mdash; GOES-16 CONUS</h2>
+        <div class="meta">
+            <span class="tag">RAMMB / CIRA</span>
+            <span id="sat-updated">auto-refreshing</span>
+        </div>
+    </div>
+
+    <div class="tab-row" id="sat-tabs">
+        <div class="tab active" data-sat="GEOCOLOR">GeoColor</div>
+        <div class="tab" data-sat="13">IR 10.3 µm (Clean IR)</div>
+        <div class="tab" data-sat="08">Water Vapor (6.2 µm)</div>
+        <div class="tab" data-sat="AirMass">Air Mass RGB</div>
+        <div class="tab" data-sat="DayCloudPhase">Day Cloud Phase RGB</div>
+    </div>
+
+    <div class="sat-grid" id="sat-grid">
+        <!-- populated by JS -->
+    </div>
+
+    <div class="forecaster-note" style="margin-top:14px">
+        <strong>Why these channels matter</strong>
+        GeoColor blends visible + IR for intuitive context. Clean IR (Band 13) exposes deep convection and cloud-top temps. Water Vapor (Band 8) reveals mid/upper-trop moisture, jet streaks, and dry slots &mdash; essential for synoptic diagnosis. Air Mass RGB distinguishes stratospheric intrusions (red/orange) from tropical air (green) and is invaluable for cyclogenesis tracking. Day Cloud Phase highlights glaciation vs. supercooled water &mdash; key for severe convection and winter precip.
+    </div>
+</section>
+
+<!-- ==========================================
+     5. RADAR
+     ========================================== -->
+<section class="panel" id="section-radar">
+    <div class="panel-head">
+        <h2>Radar &mdash; Interactive Mosaic</h2>
+        <div class="meta">
+            <span class="tag">RainViewer &bull; NEXRAD / global composite</span>
+            <span id="radar-ts">—</span>
+        </div>
+    </div>
+
+    <div class="radar-body">
+        <div id="radar-map"></div>
+
+        <div class="radar-controls">
+            <div class="tab-row">
+                <div class="tab active" data-radar-mode="composite">Reflectivity</div>
+                <div class="tab" data-radar-mode="clouds">IR Clouds</div>
+            </div>
+
+            <div class="radar-time">
+                <span class="label">Frame</span>
+                <span id="radar-frame-time">loading…</span>
+            </div>
+
+            <div class="play-controls">
+                <button class="btn" id="radar-play">&#9654; Play</button>
+                <button class="btn btn-ghost" id="radar-prev">&lt;</button>
+                <button class="btn btn-ghost" id="radar-next">&gt;</button>
+            </div>
+
+            <label class="row mono dim" style="font-size:11px">
+                <input type="checkbox" id="radar-warnings-overlay" checked style="accent-color:var(--accent)">
+                NWS Watches / Warnings overlay
+            </label>
+
+            <div class="forecaster-note">
+                <strong>What to interrogate</strong>
+                Look for line structure (squall lines vs. discrete supercells), training echoes over the same watershed, hook signatures on the southwest flank of rotating storms, bow-echo apex rear-inflow jets, bright-band contamination near the freezing level, and three-body scatter spikes from large hail. Compare reflectivity trend across frames &mdash; intensity and motion vectors are as important as the current snapshot.
+            </div>
+
+            <a class="link-card" href="https://radar.weather.gov/" target="_blank" rel="noopener">
+                <h5>NWS Radar <span class="arrow">&rarr;</span></h5>
+                <p>Official single-site NEXRAD, velocity, spectrum width, and dual-pol products.</p>
+                <span class="attr">radar.weather.gov</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     6. SURFACE / OBS
+     ========================================== -->
+<section class="panel" id="section-surface">
+    <div class="panel-head">
+        <h2>Surface Analysis &amp; Observations</h2>
+        <div class="meta"><span class="tag">WPC &bull; IEM &bull; NWS</span></div>
+    </div>
+
+    <div class="two-col">
+        <div>
+            <div class="panel-head" style="margin:0 0 8px"><h2 style="font-size:12px">WPC Surface Analysis</h2></div>
+            <div style="border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#fff;">
+                <img id="wpc-sfc" src="https://www.wpc.ncep.noaa.gov/sfc/usfntsfcwbg.gif"
+                     alt="WPC surface analysis" loading="lazy"
+                     style="width:100%; display:block;"
+                     onerror="this.parentNode.innerHTML='<div style=padding:20px;color:var(--text-dim)>WPC image unavailable. <a href=https://www.wpc.ncep.noaa.gov/html/sfc2.shtml target=_blank>Open direct</a>.</div>'" />
+            </div>
+            <div class="forecaster-note" style="margin-top:10px">
+                <strong>Diagnose</strong>
+                Track surface lows, fronts, pressure falls/rises, and theta-e gradients. Drylines manifest as steep mixing-ratio discontinuities &mdash; watch for convergence along them. Warm fronts are preferred for isentropic ascent; cold fronts deliver sharp post-frontal drops in dewpoint and veering winds.
+            </div>
+        </div>
+
+        <div>
+            <div class="panel-head" style="margin:0 0 8px"><h2 style="font-size:12px">Station Plots &amp; Mesonet</h2></div>
+            <div class="link-grid">
+                <a class="link-card" href="https://mesonet.agron.iastate.edu/GIS/apps/rview/warnings.phtml" target="_blank" rel="noopener">
+                    <h5>IEM Mesonet Map <span class="arrow">&rarr;</span></h5>
+                    <p>Live METAR station plots, warnings overlays, and GIS tools.</p>
+                    <span class="attr">mesonet.agron.iastate.edu</span>
+                </a>
+                <a class="link-card" href="https://aviationweather.gov/data/metar/" target="_blank" rel="noopener">
+                    <h5>AWC METAR Viewer <span class="arrow">&rarr;</span></h5>
+                    <p>Raw METAR/TAF with decoded clouds, vis, and wind shifts.</p>
+                    <span class="attr">aviationweather.gov</span>
+                </a>
+                <a class="link-card" href="https://www.spc.noaa.gov/exper/mesoanalysis/" target="_blank" rel="noopener">
+                    <h5>SPC Mesoanalysis <span class="arrow">&rarr;</span></h5>
+                    <p>Real-time RAP-based mesoscale analysis: CAPE, shear, helicity, theta-e advection, moisture convergence.</p>
+                    <span class="attr">spc.noaa.gov</span>
+                </a>
+                <a class="link-card" href="https://mesonet.agron.iastate.edu/current/mcview.phtml" target="_blank" rel="noopener">
+                    <h5>IEM Current Conditions <span class="arrow">&rarr;</span></h5>
+                    <p>Regional dewpoint, wind gust, heat index, wet-bulb mesoscale plots.</p>
+                    <span class="attr">IEM / mesonet</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     7. MESOANALYSIS (SPC)
+     ========================================== -->
+<section class="panel" id="section-meso">
+    <div class="panel-head">
+        <h2>SPC Mesoanalysis &mdash; Environment Diagnostics</h2>
+        <div class="meta"><span class="tag warm">convective</span><span class="tag cool">kinematics</span></div>
+    </div>
+
+    <div class="tab-row" id="meso-tabs">
+        <div class="tab active" data-meso="pmsl">MSLP / Wind</div>
+        <div class="tab" data-meso="sbcp">SB CAPE / CIN</div>
+        <div class="tab" data-meso="mlcp">ML CAPE / CIN</div>
+        <div class="tab" data-meso="mucp">MU CAPE / CIN</div>
+        <div class="tab" data-meso="eshr">Effective Bulk Shear</div>
+        <div class="tab" data-meso="srh3">0-3 km Storm-Relative Helicity</div>
+        <div class="tab" data-meso="stor">STP (fixed-layer)</div>
+        <div class="tab" data-meso="lr75">700-500 mb Lapse Rate</div>
+    </div>
+
+    <div class="model-view" style="min-height:420px" id="meso-view">
+        <div class="placeholder">loading SPC mesoanalysis…</div>
+    </div>
+
+    <div class="forecaster-note" style="margin-top:10px">
+        <strong>Interrogation sequence</strong>
+        CAPE tells you fuel; shear tells you organization; SRH tells you rotation potential; STP bundles them into a tornado parameter. Lapse rates &gt; 7.5 °C/km in the 700-500 mb layer suggest robust updraft acceleration and large-hail potential. Always cross-check with observed soundings, not just the mesoanalysis.
     </div>
 </section>
 

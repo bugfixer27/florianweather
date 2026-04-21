@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>About Florian Kroker McCormack | Weather & Meteorology</title>
-<meta name="description" content="Florian Kroker McCormack is a high-school weather enthusiast and meteorology hobbyist at Riverdale Country School. He built floriankm.com, a personal weather dashboard for synoptic forecasting, severe weather, and satellite analysis." />
+<meta name="description" content="I'm Florian Kroker McCormack, a high-school weather enthusiast and meteorology hobbyist at Riverdale Country School. I built floriankm.com as my personal forecasting dashboard for models, radar, satellite, severe weather, and more." />
 <meta name="keywords" content="Florian Kroker McCormack, Florian weather, Florian meteorology, Florian KM, floriankm, weather enthusiast, meteorology student, severe weather, synoptic forecasting" />
 <meta name="author" content="Florian Kroker McCormack" />
 <meta name="robots" content="index, follow" />
@@ -12,7 +12,7 @@
 
 <meta property="og:type" content="profile" />
 <meta property="og:title" content="About Florian Kroker McCormack | Weather & Meteorology" />
-<meta property="og:description" content="Florian Kroker McCormack — weather enthusiast, meteorology hobbyist, and builder of a personal forecasting dashboard at floriankm.com." />
+<meta property="og:description" content="I'm Florian Kroker McCormack, a weather enthusiast, meteorology hobbyist, and builder of a personal forecasting dashboard at floriankm.com." />
 <meta property="og:url" content="https://floriankm.com/about.html" />
 
 <script type="application/ld+json">
@@ -85,10 +85,47 @@
 
     .quote-block { padding: 16px 20px; margin: 0 0 28px; border-left: 3px solid var(--accent-violet); background: rgba(180,140,255,0.05); border-radius: 0 10px 10px 0; font-size: 13.5px; color: var(--text-dim); line-height: 1.7; font-style: italic; }
 
+    @media (max-width: 760px) {
+        body { padding: 24px 14px 44px; }
+        .about-page-header { margin-bottom: 20px; }
+        .about-page-hero { padding: 18px; gap: 18px; }
+        .about-page-hero > div { min-width: 0; width: 100%; }
+        .about-page-name { font-size: 22px; line-height: 1.2; }
+        .about-page-tagline { font-size: 13.5px; overflow-wrap: anywhere; }
+        .about-meta { justify-content: center; }
+        .about-meta > * { max-width: 100%; }
+        .about-meta .btn,
+        .about-meta .tag {
+            white-space: normal;
+            overflow-wrap: anywhere;
+            text-align: center;
+        }
+        .about-section { padding: 16px; margin-bottom: 20px; }
+        .research-card { padding: 14px; }
+        .research-meta { line-height: 1.5; }
+    }
+
     @media (max-width: 600px) {
         .about-page-hero { flex-direction: column; text-align: center; }
+        .about-page-name {
+            font-size: 20px;
+            overflow-wrap: anywhere;
+        }
+        .about-meta {
+            flex-direction: column;
+            align-items: center;
+        }
+        .about-meta .btn,
+        .about-meta .tag {
+            width: min(100%, 280px);
+        }
         .highlights-grid { grid-template-columns: 1fr; }
         .research-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 420px) {
+        .research-stats { grid-template-columns: 1fr; }
+        .research-poster-link { width: 100%; justify-content: center; }
     }
 </style>
 </head>
@@ -102,7 +139,7 @@
     <img class="about-page-photo" src="https://static1.squarespace.com/static/57334402e707eb22d693d923/5733445a45bf21685c04b706/675b37f714aa575d07ad8a73/1763067313947/Screenshot+2024-12-12+at+2.25.28%E2%80%AFPM.png?format=1500w" alt="Florian Kroker McCormack" />
     <div>
         <h1 class="about-page-name">Florian Kroker McCormack</h1>
-        <p class="about-page-tagline">High-school weather enthusiast and meteorology hobbyist at Riverdale Country School. Builder of <a href="index.html" style="color:var(--accent)">floriankm.com</a> — a personal forecasting and weather analysis workstation.</p>
+        <p class="about-page-tagline">I'm a high-school weather enthusiast at Riverdale Country School who built <a href="index.html" style="color:var(--accent)">floriankm.com</a> as my own forecasting and weather analysis workstation.</p>
         <div class="about-meta">
             <a class="btn" href="mailto:floriangkmcc@gmail.com">floriangkmcc@gmail.com</a>
             <span class="tag cool">Riverdale Country School</span>
@@ -126,13 +163,13 @@
 </div>
 
 <div class="quote-block">
-    &ldquo;Most consumer weather apps collapse the atmosphere into a single number. A real forecaster looks at many products at once and works a disciplined workflow.&rdquo;
+    &ldquo;I like weather because it rewards curiosity: one minute I am checking radar, and the next I am chasing down the upper-level pattern that explains what is actually happening.&rdquo;
 </div>
 
 <div class="about-section">
-    <h2>About Florian</h2>
-    <p>Florian Kroker McCormack is a high-school student with a deep interest in meteorology, weather forecasting, and atmospheric science. Rather than using consumer weather apps that reduce the atmosphere to a single temperature number, Florian built his own personal weather dashboard at <a href="index.html" class="about-contact-link">floriankm.com</a> — a full forecaster-workflow workstation using live public data from NOAA, NWS, SPC, and more.</p>
-    <p>Florian's approach to weather mirrors that of a professional meteorologist: start with satellite imagery, move to radar, check surface observations and mesoanalysis, then work through short-range models and ensemble guidance. This Florian weather dashboard is the product of that disciplined curiosity.</p>
+    <h2>About Me</h2>
+    <p>I'm Florian Kroker McCormack, a high-school student at Riverdale Country School with a serious interest in meteorology, forecasting, and atmospheric science. I built <a href="index.html" class="about-contact-link">floriankm.com</a> because I wanted something more useful than a simple weather app: a place where I could compare live NOAA, NWS, SPC, radar, satellite, and model data in one workflow.</p>
+    <p>My favorite part of forecasting is connecting the dots. I usually start with the big picture, then move through satellite, radar, surface observations, mesoanalysis, short-range models, and ensemble guidance. It is part science, part detective work, and part pattern recognition, which is exactly why I enjoy it.</p>
 </div>
 
 <div class="about-section">
@@ -185,20 +222,20 @@
 </div>
 
 <div class="about-section">
-    <h2>The Florian weather dashboard</h2>
-    <p>The dashboard at <a href="index.html" class="about-contact-link">floriankm.com</a> is a single-page meteorology workstation with five main sections:</p>
+    <h2>The Dashboard</h2>
+    <p>I use <a href="index.html" class="about-contact-link">floriankm.com</a> as a single-page meteorology workstation with five main sections:</p>
     <ul>
         <li><b>Main dashboard</b> — NWS point forecast, local diagnostics, radar, satellite, SPC mesoanalysis, model wall, severe weather desk, and marine/tropical tools</li>
         <li><b>Satellite loop</b> — Animated GOES-East loops across 8 sectors and 10 channels including GeoColor, clean IR, water vapor, and air-mass RGB</li>
         <li><b>Space weather</b> — Kp index, DSCOVR solar wind, aurora forecast (Ovation model), GOES X-ray flux, and SDO solar imagery</li>
         <li><b>Marine</b> — NDBC buoy observations, global wave height guidance, and sea surface temperature</li>
     </ul>
-    <p>All data is sourced from public NOAA/NWS APIs with no backend or API keys required.</p>
+    <p>All data comes from public NOAA/NWS and related weather sources, with no backend or API keys required.</p>
 </div>
 
 <div class="about-section">
     <h2>Contact</h2>
-    <p>Suggestions, corrections, or want to trade a forecast? Reach Florian at <a href="mailto:floriangkmcc@gmail.com" class="about-contact-link">floriangkmcc@gmail.com</a>. Severe-weather season discussions and winter storm setups are especially welcome.</p>
+    <p>Suggestions, corrections, or want to trade a forecast? Reach me at <a href="mailto:floriangkmcc@gmail.com" class="about-contact-link">floriangkmcc@gmail.com</a>. Severe-weather season discussions and winter storm setups are especially welcome.</p>
 </div>
 
 </body>
