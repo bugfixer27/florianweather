@@ -7,8 +7,8 @@
     RAMMB/CIRA, NOAA/NCEP MAG, SPC, WPC, OPC, NHC, Tropical Tidbits,
     College of DuPage NEXLAB, and Iowa Environmental Mesonet.
 
-    Philosophy: serious diagnosis > consumer eye-candy. Panels are arranged
-    the way a forecaster actually works — satellite → radar → surface obs →
+    Layout: panels are arranged around a practical forecasting workflow —
+    satellite → radar → surface obs →
     mesoanalysis → short-range → medium-range → ensembles.
 
     External CDN dependencies (browser-only, no keys):
@@ -123,7 +123,7 @@
         <button class="page-tab" data-page="space">Space Weather</button>
         <button class="page-tab" data-page="marine">Marine</button>
     </nav>
-    <a class="about-nav-link" href="about.html">About Florian</a>
+    <a class="about-nav-link" href="/about">About Florian</a>
 
     <div class="header-spacer"></div>
 
@@ -156,10 +156,6 @@
 <!-- SIDEBAR: forecaster workflow + quote -->
 <aside class="sidebar">
     <h3>Forecast Workflow</h3>
-    <div class="workflow-intro-card">
-        <p>This website has the products I wish I knew more about when I started forecasting in 8th grade.</p>
-        <a href="about.html">About Florian</a>
-    </div>
     <ol class="workflow-list" id="workflow-list">
         <li data-target="section-models">Short-Range Models</li>
         <li data-target="section-conditions">Current Conditions</li>
@@ -188,6 +184,14 @@
      PAGE: DASHBOARD (existing content)
      ========================================== -->
 <div class="page-view active" data-page-view="dashboard">
+
+<section class="workflow-intro-panel" aria-labelledby="workflow-intro-title">
+    <div>
+        <h2 id="workflow-intro-title">This website has the products I wish I knew more about when I started forecasting in 8th grade.</h2>
+        <p>The About Florian page also showcases my research and interviews.</p>
+    </div>
+    <a href="/about">About Florian</a>
+</section>
 
 <!-- ==========================================
      1. MODELS (short-range)
