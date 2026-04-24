@@ -101,7 +101,7 @@
 <!-- Chart.js for meteograms -->
 <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-<link rel="stylesheet" href="assets/styles.css?v=20260421b" />
+<link rel="stylesheet" href="assets/styles.css?v=20260424a" />
 <style>
     .workflow-intro-panel {
         display: grid;
@@ -197,6 +197,7 @@
 
     <nav class="page-nav" id="page-nav" aria-label="Primary">
         <button class="page-tab active" data-page="dashboard">Dashboard</button>
+        <button class="page-tab" data-page="upperair">Upper-Air Lab</button>
         <button class="page-tab" data-page="satslider">Satellite Loop</button>
         <button class="page-tab" data-page="space">Space Weather</button>
         <button class="page-tab" data-page="marine">Marine</button>
@@ -223,7 +224,7 @@
      ====================================================== -->
 <div class="status-banner">
     <span>&#9432;</span>
-    <span><strong>DATA SOURCES</strong> &nbsp;&mdash;&nbsp; This dashboard loads public weather products directly from NOAA, NWS, SPC, NCEP MAG, RainViewer, and related sources. Some outside products cannot be embedded in the browser, so those panels include direct links to the original source.</span>
+    <span><strong>LIVE WEATHER DESK</strong> &nbsp;&mdash;&nbsp; A field notebook for official NWS forecasts, SPC/WPC guidance, radar, satellite, models, marine data, and space-weather products. When a source product is better viewed at the agency site, the panel links straight to the original page.</span>
 </div>
 
 <!-- ======================================================
@@ -238,6 +239,7 @@
         <li data-target="section-models">Short-Range Models</li>
         <li data-target="section-conditions">Current Conditions</li>
         <li data-target="section-local-diagnostics">Local Diagnostics</li>
+        <li data-target="section-guidance">Official Guidance</li>
         <li data-target="section-satellite">Satellite</li>
         <li data-target="section-radar">Radar</li>
         <li data-target="section-surface">Surface &amp; Obs</li>
@@ -471,11 +473,90 @@
 </section>
 
 <!-- ==========================================
-     4. SATELLITE
+     4. OFFICIAL GUIDANCE
+     ========================================== -->
+<section class="panel" id="section-guidance">
+    <div class="panel-head">
+        <h2>Official Guidance Desk</h2>
+        <div class="meta">
+            <span class="tag cool">NWS / SPC / WPC / MDL</span>
+            <span id="guidance-updated">official products only</span>
+        </div>
+    </div>
+
+    <div class="guidance-overview">
+        <div>
+            <div class="guidance-kicker">Official products and source text only.</div>
+            <p>
+                This desk pulls from official forecast offices and national centers: the local NWS Area Forecast Discussion, point/grid metadata, SPC severe products, WPC precipitation guidance, and NOAA model-analysis portals. It is meant to show the reasoning forecasters actually publish, then point you to the source product.
+            </p>
+        </div>
+        <div class="guidance-badge">
+            <span>NWS</span>
+            <small>source text</small>
+        </div>
+    </div>
+
+    <div class="official-guidance-layout">
+        <div class="mini-panel afd-panel">
+            <div class="panel-head tight">
+                <h2>NWS Area Forecast Discussion</h2>
+                <span class="meta" id="afd-meta">waiting for WFO</span>
+            </div>
+            <pre class="afd-text" id="afd-text">Loading latest NWS forecast discussion...</pre>
+            <div class="row" style="margin-top:10px">
+                <a class="btn btn-ghost" id="afd-open-link" href="https://forecast.weather.gov/product_types.php?site=NWS" target="_blank" rel="noopener">Open NWS product</a>
+            </div>
+        </div>
+
+        <div class="mini-panel">
+            <div class="panel-head tight">
+                <h2>Point Product Metadata</h2>
+                <span class="meta">api.weather.gov</span>
+            </div>
+            <div class="param-card-grid official-card-grid" id="official-point-cards">
+                <div class="skeleton" style="height:86px"></div>
+                <div class="skeleton" style="height:86px"></div>
+                <div class="skeleton" style="height:86px"></div>
+                <div class="skeleton" style="height:86px"></div>
+            </div>
+
+            <div class="panel-head tight official-links-head">
+                <h2>National Guidance Sources</h2>
+                <span class="meta">direct official portals</span>
+            </div>
+            <div class="link-grid official-source-grid">
+                <a class="link-card" href="https://www.spc.noaa.gov/products/outlook/" target="_blank" rel="noopener">
+                    <h5>SPC Convective Outlooks <span class="arrow">&rarr;</span></h5>
+                    <p>Official categorical and probabilistic severe-weather outlooks.</p>
+                    <span class="attr">spc.noaa.gov</span>
+                </a>
+                <a class="link-card" href="https://www.wpc.ncep.noaa.gov/qpf/qpf2.shtml" target="_blank" rel="noopener">
+                    <h5>WPC QPF <span class="arrow">&rarr;</span></h5>
+                    <p>Official quantitative precipitation forecasts and excessive rainfall context.</p>
+                    <span class="attr">wpc.ncep.noaa.gov</span>
+                </a>
+                <a class="link-card" href="https://digital.weather.gov/" target="_blank" rel="noopener">
+                    <h5>National Digital Forecast Database <span class="arrow">&rarr;</span></h5>
+                    <p>Official NWS gridded forecast fields behind many public forecast products.</p>
+                    <span class="attr">digital.weather.gov</span>
+                </a>
+                <a class="link-card" href="https://vlab.noaa.gov/web/mdl/nbm" target="_blank" rel="noopener">
+                    <h5>National Blend of Models <span class="arrow">&rarr;</span></h5>
+                    <p>NOAA MDL overview for the NBM guidance system and its probabilistic products.</p>
+                    <span class="attr">vlab.noaa.gov</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==========================================
+     5. SATELLITE
      ========================================== -->
 <section class="panel" id="section-satellite">
     <div class="panel-head">
-        <h2>Satellite &mdash; GOES-16 CONUS</h2>
+        <h2>Satellite &mdash; GOES-19 CONUS</h2>
         <div class="meta">
             <span class="tag">RAMMB / CIRA</span>
             <span id="sat-updated">auto-refreshing</span>
@@ -501,7 +582,7 @@
 </section>
 
 <!-- ==========================================
-     5. RADAR
+     6. RADAR
      ========================================== -->
 <section class="panel" id="section-radar">
     <div class="panel-head">
@@ -552,7 +633,7 @@
 </section>
 
 <!-- ==========================================
-     6. SURFACE / OBS
+     7. SURFACE / OBS
      ========================================== -->
 <section class="panel" id="section-surface">
     <div class="panel-head">
@@ -604,7 +685,7 @@
 </section>
 
 <!-- ==========================================
-     7. MESOANALYSIS (SPC)
+     8. MESOANALYSIS (SPC)
      ========================================== -->
 <section class="panel" id="section-meso">
     <div class="panel-head">
@@ -634,12 +715,43 @@
 </section>
 
 <!-- ==========================================
-     8. MEDIUM-RANGE / ENSEMBLES
+     9. MEDIUM-RANGE / ENSEMBLES
      ========================================== -->
 <section class="panel" id="section-ensembles">
     <div class="panel-head">
         <h2>Medium-Range &amp; Ensemble Guidance</h2>
         <div class="meta"><span class="tag">GEFS &bull; ECMWF &bull; CMC &bull; EPS</span></div>
+    </div>
+
+    <div class="panel-head tight model-intel-head">
+        <h2>Model Intelligence Board</h2>
+        <span class="meta">operational, experimental, and AI-adjacent guidance</span>
+    </div>
+    <div class="model-intel-grid">
+        <a class="link-card model-intel-card" href="https://gsl.noaa.gov/focus-areas/unified_forecast_system/rrfs" target="_blank" rel="noopener">
+            <span class="tag cool">pre-operational</span>
+            <h5>RRFS &mdash; Rapid Refresh Forecast System <span class="arrow">&rarr;</span></h5>
+            <p>NOAA's UFS-based hourly, convection-allowing deterministic and ensemble successor path for rapid-refresh high-impact forecasting.</p>
+            <span class="attr">NOAA GSL</span>
+        </a>
+        <a class="link-card model-intel-card" href="https://gsl.noaa.gov/news/hrrrcast-version-3-new-release-of-noaas-experimental-regional-ai-forecast-model" target="_blank" rel="noopener">
+            <span class="tag warm">experimental AI</span>
+            <h5>HRRRCast v3 <span class="arrow">&rarr;</span></h5>
+            <p>Experimental NOAA regional AI forecast model at 3-km resolution, useful context for where convective-scale guidance is heading.</p>
+            <span class="attr">NOAA GSL</span>
+        </a>
+        <a class="link-card model-intel-card" href="https://emc.ncep.noaa.gov/hurricane/HFSA/about.php?branch=summary" target="_blank" rel="noopener">
+            <span class="tag hot">tropical</span>
+            <h5>HAFS &mdash; Hurricane Analysis and Forecast System <span class="arrow">&rarr;</span></h5>
+            <p>Operational UFS hurricane guidance with storm-following nests, inner-core data assimilation, and atmosphere-ocean-wave coupling.</p>
+            <span class="attr">NOAA/NCEP EMC</span>
+        </a>
+        <a class="link-card model-intel-card" href="https://www.emc.ncep.noaa.gov/emc/pages/numerical_forecast_systems/href-hiresw.php" target="_blank" rel="noopener">
+            <span class="tag">ensemble</span>
+            <h5>HREF / HIRESW <span class="arrow">&rarr;</span></h5>
+            <p>Convection-allowing ensemble products from time-lagged CAM guidance; especially valuable for severe and mesoscale snowband probabilities.</p>
+            <span class="attr">NOAA/NCEP EMC</span>
+        </a>
     </div>
 
     <div class="link-grid" style="grid-template-columns:repeat(3, 1fr)">
@@ -677,7 +789,7 @@
 </section>
 
 <!-- ==========================================
-     9. SEVERE
+     10. SEVERE
      ========================================== -->
 <section class="panel" id="section-severe">
     <div class="panel-head">
@@ -727,7 +839,7 @@
 </section>
 
 <!-- ==========================================
-     10. WINTER
+     11. WINTER
      ========================================== -->
 <section class="panel" id="section-winter">
     <div class="panel-head">
@@ -786,7 +898,7 @@
 </section>
 
 <!-- ==========================================
-     11. TROPICAL / MARINE
+     12. TROPICAL / MARINE
      ========================================== -->
 <section class="panel" id="section-tropical">
     <div class="panel-head">
@@ -845,6 +957,173 @@
 </section>
 
 </div><!-- /.page-view dashboard -->
+
+<!-- ==========================================
+     PAGE: UPPER-AIR LAB
+     ========================================== -->
+<div class="page-view" data-page-view="upperair">
+    <section class="panel" id="section-upperair">
+            <div class="panel-head">
+            <h2>Upper-Air Lab &mdash; Radiosondes, Soundings, Synoptic Structure</h2>
+            <div class="meta">
+                <span class="tag cool">NOAA / SPC / NCEP</span>
+                <span id="upperair-status">observed upper-air workflow</span>
+            </div>
+        </div>
+
+        <div class="upperair-hero">
+            <div>
+                <div class="guidance-kicker">Observed atmosphere first. Models second.</div>
+                <p>
+                    Twice-daily radiosonde observations are the anchor for diagnosing the real vertical column: cap strength, moisture depth, freezing-level structure, jet streaks, lapse rates, and the wind profile. This page maps the RAOB network around the selected dashboard point and links directly into official NOAA/SPC/NCEP upper-air products.
+                </p>
+            </div>
+            <div class="launch-clock" id="upperair-clock">
+                <span>00/12Z</span>
+                <small>RAOB cycle</small>
+            </div>
+        </div>
+
+        <div class="upperair-data-grid">
+            <div class="mini-panel upperair-spc-map-panel">
+                <div class="panel-head tight">
+                    <h2>SPC Observed Sounding Cycle</h2>
+                    <span class="meta" id="upperair-cycle-meta">latest 00/12Z cycle</span>
+                </div>
+                <a id="upperair-cycle-link" href="https://www.spc.noaa.gov/exper/soundings/" target="_blank" rel="noopener" class="upperair-image-link">
+                    <img id="upperair-sounding-map" alt="SPC observed sounding cycle station map" loading="lazy">
+                </a>
+                <div class="cycle-strip" id="upperair-cycle-strip" aria-label="Recent SPC observed sounding cycles"></div>
+            </div>
+
+            <div class="mini-panel upperair-sounding-panel">
+                <div class="panel-head tight">
+                    <h2>Selected Station Sounding</h2>
+                    <span class="meta" id="upperair-sounding-meta">SPC observed RAOB</span>
+                </div>
+                <div class="upperair-sounding-grid">
+                    <div class="sounding-image-wrap">
+                        <a id="upperair-station-sounding-link" href="https://www.spc.noaa.gov/exper/soundings/" target="_blank" rel="noopener" class="upperair-image-link">
+                            <img id="upperair-station-sounding" alt="Selected station observed sounding from SPC" loading="lazy">
+                        </a>
+                        <div class="sounding-fallback" id="upperair-sounding-fallback" hidden>
+                            Sounding image not posted for this station and cycle yet.
+                        </div>
+                    </div>
+                    <div class="profile-lab">
+                        <div class="profile-title-row">
+                            <span>Thermo / Wind Trace</span>
+                            <a id="upperair-text-link" href="https://www.spc.noaa.gov/exper/soundings/" target="_blank" rel="noopener">raw SPC text</a>
+                        </div>
+                        <svg id="upperair-profile-chart" viewBox="0 0 760 430" role="img" aria-label="Temperature, dew point, and wind speed profile"></svg>
+                        <div class="upperair-metric-grid" id="upperair-metrics">
+                            <div class="skeleton" style="height:48px"></div>
+                            <div class="skeleton" style="height:48px"></div>
+                            <div class="skeleton" style="height:48px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="upperair-layout">
+            <div class="mini-panel upperair-map-panel">
+                <div class="panel-head tight">
+                    <h2>CONUS RAOB Network</h2>
+                    <span class="meta" id="upperair-map-meta">nearest stations from current point</span>
+                </div>
+                <canvas id="upperair-map" width="1100" height="620"></canvas>
+                <div class="upperair-map-note">
+                    Station locations are a curated operational subset of U.S. upper-air sites. Distances use great-circle geometry from the selected dashboard point.
+                </div>
+            </div>
+
+            <div class="mini-panel">
+                <div class="panel-head tight">
+                    <h2>Nearest Sounding Sites</h2>
+                    <span class="meta" id="upperair-nearest-meta">—</span>
+                </div>
+                <div class="station-stack" id="upperair-nearest">
+                    <div class="skeleton" style="height:76px"></div>
+                    <div class="skeleton" style="height:76px"></div>
+                    <div class="skeleton" style="height:76px"></div>
+                </div>
+
+                <div class="panel-head tight official-links-head">
+                    <h2>Selected Station</h2>
+                    <span class="meta">manual inspection</span>
+                </div>
+                <div class="station-select-row">
+                    <select class="sel" id="upperair-station-select" aria-label="Upper-air station"></select>
+                    <button class="btn btn-ghost" id="upperair-focus">Focus</button>
+                </div>
+                <div class="station-detail" id="upperair-station-detail">
+                    Select a station to see official product links.
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-head tight official-links-head">
+            <h2>Official Upper-Air Workbench</h2>
+            <span class="meta">observations, analyses, and forecast profiles</span>
+        </div>
+        <div class="upperair-workbench">
+            <a class="link-card" href="https://www.spc.noaa.gov/exper/soundings/" target="_blank" rel="noopener">
+                <span class="tag cool">observed</span>
+                <h5>SPC Observed Sounding Archive <span class="arrow">&rarr;</span></h5>
+                <p>Current and recent observed radiosonde data in NSHARP skew-T format, with experimental derived parameters.</p>
+                <span class="attr">spc.noaa.gov</span>
+            </a>
+            <a class="link-card" href="https://www.ready.noaa.gov/READY_sonde.php" target="_blank" rel="noopener">
+                <span class="tag">observed</span>
+                <h5>NOAA READY Observed Soundings <span class="arrow">&rarr;</span></h5>
+                <p>NOAA ARL sounding generator for selected observing locations and archived cycles.</p>
+                <span class="attr">ready.noaa.gov</span>
+            </a>
+            <a class="link-card" href="https://www.spc.noaa.gov/obswx/maps/" target="_blank" rel="noopener">
+                <span class="tag warm">analysis</span>
+                <h5>SPC Upper-Air Maps <span class="arrow">&rarr;</span></h5>
+                <p>Objectively analyzed 925, 850, 700, 500, 300, and 250 mb maps from observed upper-air data.</p>
+                <span class="attr">spc.noaa.gov</span>
+            </a>
+            <a class="link-card" href="https://www.spc.noaa.gov/exper/soundingclimo/" target="_blank" rel="noopener">
+                <span class="tag">climatology</span>
+                <h5>SPC Sounding Climatology <span class="arrow">&rarr;</span></h5>
+                <p>Observed-sounding climatology with parameter distributions and recent-observation overlays.</p>
+                <span class="attr">spc.noaa.gov</span>
+            </a>
+            <a class="link-card" href="https://mag.ncep.noaa.gov/sounding-model-area.php/1000" target="_blank" rel="noopener">
+                <span class="tag hot">model sounding</span>
+                <h5>NCEP MAG Forecast Soundings <span class="arrow">&rarr;</span></h5>
+                <p>Official NCEP model forecast-sounding portal for comparing future profiles against observed RAOB structure.</p>
+                <span class="attr">mag.ncep.noaa.gov</span>
+            </a>
+            <a class="link-card" href="https://www.spc.noaa.gov/exper/href/" target="_blank" rel="noopener">
+                <span class="tag cool">ensemble</span>
+                <h5>SPC HREF Ensemble Viewer <span class="arrow">&rarr;</span></h5>
+                <p>SPC interface for calibrated HREF severe-weather and synoptic ensemble fields.</p>
+                <span class="attr">spc.noaa.gov</span>
+            </a>
+            <a class="link-card" href="https://www.cpc.ncep.noaa.gov/products/predictions/short_range/tools/model_guidance.php" target="_blank" rel="noopener">
+                <span class="tag">medium range</span>
+                <h5>CPC Upper-Air Tools <span class="arrow">&rarr;</span></h5>
+                <p>Official CPC 500 mb and 700 mb height, anomaly, correlation, and analog products.</p>
+                <span class="attr">cpc.ncep.noaa.gov</span>
+            </a>
+            <a class="link-card" href="https://www.spc.noaa.gov/exper/mesoanalysis/help/begin.html" target="_blank" rel="noopener">
+                <span class="tag warm">methodology</span>
+                <h5>SPC Mesoanalysis Documentation <span class="arrow">&rarr;</span></h5>
+                <p>Technical notes on SPC objective analysis, RAP first guess, and NSHARP-derived severe parameters.</p>
+                <span class="attr">spc.noaa.gov</span>
+            </a>
+        </div>
+
+        <div class="forecaster-note" style="margin-top:14px">
+            <strong>Professional workflow</strong>
+            Start with the nearest observed sounding, then compare against SPC upper-air maps to locate the synoptic wave, jet streak, thermal ridge, dry layer, and frontal slope. Only then interrogate forecast soundings and CAM/HREF fields to see how the modeled profile evolves.
+        </div>
+    </section>
+</div><!-- /.page-view upperair -->
 
 <!-- ==========================================
      PAGE: SATELLITE LOOP

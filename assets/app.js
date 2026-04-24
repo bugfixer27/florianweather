@@ -200,6 +200,7 @@ async function loadPointForecast(lat, lon) {
     renderHourly(hrly);
     renderMeteogram(hrly);
     renderDiagnostics(hrly, alerts);
+    renderOfficialGuidance();
 }
 
 /* ---------- Rendering ---------- */
@@ -856,53 +857,53 @@ function playRadar(on) {
    ========================================================= */
 const SAT_TABS = {
     'GEOCOLOR': {
-        title: 'GOES-16 GeoColor — CONUS',
+        title: 'GOES-19 GeoColor — CONUS',
         desc: 'Daytime true-color + nighttime IR blend. Quick contextual scan.',
-        url:  'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/GEOCOLOR/1250x750.jpg',
+        url:  'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/CONUS/GEOCOLOR/1250x750.jpg',
         sectors: [
-            { t:'Northeast', sub:'Mid-latitude cyclones, coastal storms, lake-effect.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/ne/GEOCOLOR/1200x1200.jpg'},
-            { t:'Southern Plains', sub:'Convective initiation along drylines and warm fronts.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/sp/GEOCOLOR/1200x1200.jpg'},
-            { t:'Gulf of Mexico', sub:'Tropical systems, Gulf low-level jets, return flow.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/gm/GEOCOLOR/1200x1200.jpg'}
+            { t:'Northeast', sub:'Mid-latitude cyclones, coastal storms, lake-effect.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ne/GEOCOLOR/1200x1200.jpg'},
+            { t:'Southern Plains', sub:'Convective initiation along drylines and warm fronts.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/sp/GEOCOLOR/1200x1200.jpg'},
+            { t:'Gulf of Mexico', sub:'Tropical systems, Gulf low-level jets, return flow.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/gm/GEOCOLOR/1200x1200.jpg'}
         ]
     },
     '13': {
         title: 'Clean Longwave IR (Band 13, 10.3 µm)',
         desc: 'Cloud-top temperatures. Cold tops (< −60 °C) = deep convection. Night-capable.',
-        url:  'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/13/1250x750.jpg',
+        url:  'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/CONUS/13/1250x750.jpg',
         sectors: [
-            { t:'NE Band 13', sub:'Enhanced cloud-top detail for extratropical systems.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/ne/13/1200x1200.jpg'},
-            { t:'SP Band 13', sub:'Severe thunderstorm cold-top evolution.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/sp/13/1200x1200.jpg'},
-            { t:'Tropical Atlantic', sub:'TC cold-ring / eyewall monitoring.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/taw/13/1200x1200.jpg'}
+            { t:'NE Band 13', sub:'Enhanced cloud-top detail for extratropical systems.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ne/13/1200x1200.jpg'},
+            { t:'SP Band 13', sub:'Severe thunderstorm cold-top evolution.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/sp/13/1200x1200.jpg'},
+            { t:'Tropical Atlantic', sub:'TC cold-ring / eyewall monitoring.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/taw/13/1200x1200.jpg'}
         ]
     },
     '08': {
         title: 'Upper Water Vapor (Band 8, 6.2 µm)',
         desc: 'Mid/upper tropospheric moisture. Dry slots, jet streaks, trough/ridge pattern.',
-        url:  'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/08/1250x750.jpg',
+        url:  'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/CONUS/08/1250x750.jpg',
         sectors: [
-            { t:'NE Water Vapor', sub:'Upper-level jet dynamics over the eastern US.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/ne/08/1200x1200.jpg'},
-            { t:'Pacific NW', sub:'Atmospheric rivers, cyclogenesis offshore.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/pnw/08/1200x1200.jpg'},
-            { t:'Full Disk', sub:'Planetary-scale wave pattern.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/08/1808x1808.jpg'}
+            { t:'NE Water Vapor', sub:'Upper-level jet dynamics over the eastern US.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ne/08/1200x1200.jpg'},
+            { t:'Pacific NW', sub:'Atmospheric rivers, cyclogenesis offshore.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/pnw/08/1200x1200.jpg'},
+            { t:'Full Disk', sub:'Planetary-scale wave pattern.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/FD/08/1808x1808.jpg'}
         ]
     },
     'AirMass': {
         title: 'Air Mass RGB',
         desc: 'Distinguishes stratospheric intrusions, dry slots, and tropical air. Cyclogenesis tool.',
-        url:  'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/AirMass/1250x750.jpg',
+        url:  'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/CONUS/AirMass/1250x750.jpg',
         sectors: [
-            { t:'NE Air Mass', sub:'Rapid cyclogenesis red-signature tracking.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/ne/AirMass/1200x1200.jpg'},
-            { t:'Tropical Atl Air Mass', sub:'TC environment dry-air entrainment.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/taw/AirMass/1200x1200.jpg'},
-            { t:'Full Disk Air Mass', sub:'Synoptic air-mass identification.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/AirMass/1808x1808.jpg'}
+            { t:'NE Air Mass', sub:'Rapid cyclogenesis red-signature tracking.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ne/AirMass/1200x1200.jpg'},
+            { t:'Tropical Atl Air Mass', sub:'TC environment dry-air entrainment.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/taw/AirMass/1200x1200.jpg'},
+            { t:'Full Disk Air Mass', sub:'Synoptic air-mass identification.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/FD/AirMass/1808x1808.jpg'}
         ]
     },
     'DayCloudPhase': {
         title: 'Day Cloud Phase Distinction RGB',
         desc: 'Ice vs. supercooled water clouds. Glaciated anvils show vivid green.',
-        url:  'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/DayCloudPhase/1250x750.jpg',
+        url:  'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/CONUS/DayCloudPhase/1250x750.jpg',
         sectors: [
-            { t:'NE Cloud Phase', sub:'Winter storm glaciation over the NE.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/ne/DayCloudPhase/1200x1200.jpg'},
-            { t:'SP Cloud Phase', sub:'Supercell anvil glaciation signature.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/sp/DayCloudPhase/1200x1200.jpg'},
-            { t:'PNW Cloud Phase', sub:'Pacific NW winter storm diagnosis.', url:'https://cdn.star.nesdis.noaa.gov/GOES16/ABI/SECTOR/pnw/DayCloudPhase/1200x1200.jpg'}
+            { t:'NE Cloud Phase', sub:'Winter storm glaciation over the NE.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/ne/DayCloudPhase/1200x1200.jpg'},
+            { t:'SP Cloud Phase', sub:'Supercell anvil glaciation signature.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/sp/DayCloudPhase/1200x1200.jpg'},
+            { t:'PNW Cloud Phase', sub:'Pacific NW winter storm diagnosis.', url:'https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/pnw/DayCloudPhase/1200x1200.jpg'}
         ]
     }
 };
@@ -914,7 +915,7 @@ function renderSatellite() {
     if (!cfg) return;
 
     // Primary CONUS card
-    grid.appendChild(buildSatCard(cfg.title, cfg.desc, cfg.url, 'GOES-16 ABI &bull; STAR NESDIS', true));
+    grid.appendChild(buildSatCard(cfg.title, cfg.desc, cfg.url, 'GOES-19 ABI &bull; STAR NESDIS', true));
 
     // Sector cards
     for (const s of cfg.sectors) {
@@ -925,7 +926,7 @@ function renderSatellite() {
 }
 
 function buildSatCard(title, desc, url, source, primary = false) {
-    const bust = '?_=' + Math.floor(Date.now() / (5 * 60 * 1000)); // 5-min cache bust
+    const cacheSuffix = '?_=' + Math.floor(Date.now() / (5 * 60 * 1000));
     const card = document.createElement('div');
     card.className = 'sat-card fade-in';
     card.innerHTML = `
@@ -947,7 +948,7 @@ function buildSatCard(title, desc, url, source, primary = false) {
             Image temporarily unavailable.<br/><a href="${url}" target="_blank" rel="noopener" style="color:var(--accent)">Open source</a>
         </div>`;
     };
-    img.src = url + bust;
+    img.src = url + cacheSuffix;
     return card;
 }
 
@@ -1565,6 +1566,7 @@ const PAGE_INIT = {};
 function switchPage(pageId) {
     $$('.page-tab').forEach(t => t.classList.toggle('active', t.dataset.page === pageId));
     $$('.page-view').forEach(v => v.classList.toggle('active', v.dataset.pageView === pageId));
+    document.body.classList.toggle('page-non-dashboard', pageId !== 'dashboard');
 
     // Invalidate radar/map tile cache if switching away
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1697,152 +1699,714 @@ PAGE_INIT.satslider = () => {
 };
 
 /* =========================================================
-   SHARED ANALYTIC CHART HELPERS
+   OFFICIAL GUIDANCE PRODUCTS
    ========================================================= */
 const PARAM_CHARTS = {};
 
-function buildParamSeries() {
-    const periods = state.hourly?.properties?.periods;
-    if (!periods || !periods.length) return null;
-    const take = periods.slice(0, 72);
-    const out = take.map((p, i) => {
-        const tempF = p.temperature;
-        const rh = p.relativeHumidity?.value ?? null;
-        const pop = p.probabilityOfPrecipitation?.value ?? 0;
-        const wind = parseWindMph(p.windSpeed);
-        const wdir = windDirToDeg(p.windDirection) ?? null;
-        // Dewpoint via Magnus
-        let td = null;
-        if (tempF != null && rh != null) {
-            const tc = (tempF - 32) * 5 / 9;
-            const a = 17.625, b = 243.04;
-            const alpha = Math.log(Math.max(rh, 0.0001) / 100) + (a * tc) / (b + tc);
-            td = (b * alpha) / (a - alpha) * 9 / 5 + 32;
-        }
-        // Wet-bulb via Stull (rh in percent, T in C)
-        let tw = null;
-        if (tempF != null && rh != null) {
-            const T = (tempF - 32) * 5 / 9;
-            const Tw_c = T * Math.atan(0.151977 * Math.sqrt(rh + 8.313659))
-                + Math.atan(T + rh) - Math.atan(rh - 1.676331)
-                + 0.00391838 * Math.pow(rh, 1.5) * Math.atan(0.023101 * rh)
-                - 4.686035;
-            tw = Tw_c * 9 / 5 + 32;
-        }
-        const apparent = apparentTempF(tempF, rh, wind);
-        // Dewpoint depression
-        const dd = (tempF != null && td != null) ? (tempF - td) : null;
-        // Mixing-ratio proxy (very crude) from Td
-        let mixr = null;
-        if (td != null) {
-            const tdc = (td - 32) * 5 / 9;
-            const es = 6.112 * Math.exp(17.67 * tdc / (tdc + 243.5)); // hPa
-            mixr = 621.97 * es / (1013 - es); // g/kg at ~1013 hPa
-        }
-        // Moisture flux proxy = mixing ratio × wind
-        const mflux = (mixr != null) ? mixr * wind : null;
-        return {
-            start: new Date(p.startTime), i,
-            tempF, td, tw, rh, pop, wind, wdir, apparent, dd, mixr, mflux,
-            windDir: p.windDirection || '',
-            wx: p.shortForecast || ''
-        };
-    });
-    // Pressure tendency proxy = -d(apparent)/dt (very rough analog)
-    for (let i = 1; i < out.length; i++) {
-        const a = out[i].apparent ?? out[i].tempF;
-        const b = out[i - 1].apparent ?? out[i - 1].tempF;
-        out[i].ptend = (a != null && b != null) ? (b - a) : null;
-        out[i].dwind = (out[i].wind - out[i - 1].wind);
-    }
-    out[0].ptend = 0;
-    out[0].dwind = 0;
-    return out;
+function officeCodeFromPoint() {
+    const p = state.nwsPoint?.properties;
+    if (p?.cwa) return p.cwa;
+    if (p?.forecastOffice) return String(p.forecastOffice).split('/').filter(Boolean).pop();
+    return null;
 }
 
-function labelEveryN(series, n, formatter) {
-    return series.map((x, i) => (i % n === 0) ? formatter(x) : '');
+function renderOfficialGuidance() {
+    renderOfficialPointMeta();
+    loadForecastDiscussion();
 }
 
-function renderParamCards(series) {
-    const host = $('#param-cards');
+function renderOfficialPointMeta() {
+    const host = $('#official-point-cards');
     if (!host) return;
-    if (!series) { host.innerHTML = '<div class="alert-empty" style="grid-column:1/-1">Forecast unavailable for this point.</div>'; return; }
-    const win24 = series.slice(0, 24);
-    const hiT = maxBy(win24, x => x.tempF ?? -999);
-    const loT = minBy(win24, x => x.tempF ?? 999);
-    const hiPoP = maxBy(win24, x => x.pop);
-    const hiWind = maxBy(win24, x => x.wind);
-    const loDD = minBy(win24.filter(x => x.dd != null), x => x.dd);
-    const hiFlux = maxBy(win24.filter(x => x.mflux != null), x => x.mflux);
-    const avgRh = Math.round(win24.reduce((s, x) => s + (x.rh ?? 0), 0) / win24.length);
-    const hiShear = maxBy(win24, x => Math.abs(x.dwind || 0));
+    const p = state.nwsPoint?.properties;
+    if (!p) {
+        host.innerHTML = '<div class="alert-empty" style="grid-column:1/-1">Point metadata unavailable.</div>';
+        return;
+    }
+    const office = officeCodeFromPoint() || '—';
+    const grid = p.gridId ? `${p.gridId} ${p.gridX},${p.gridY}` : '—';
+    const zone = p.forecastZone ? p.forecastZone.split('/').pop() : '—';
+    const fire = p.fireWeatherZone ? p.fireWeatherZone.split('/').pop() : '—';
+    const radar = p.radarStation || '—';
     const cards = [
-        card('High / Low', `${Math.round(hiT.tempF)}° / ${Math.round(loT.tempF)}°`, `Δ ${Math.round(hiT.tempF - loT.tempF)}°F diurnal range`, (hiT.tempF >= 90 || loT.tempF <= 32) ? 'warm' : ''),
-        card('Lowest Dewpoint Depression', loDD ? `${loDD.dd.toFixed(1)}°F` : '—', loDD ? `near ${shortTimeLabel(loDD.start)} — saturation risk` : '', loDD && loDD.dd < 4 ? 'cool' : ''),
-        card('Peak Moisture Flux', hiFlux ? `${hiFlux.mflux.toFixed(1)}` : '—', hiFlux ? `${Math.round(hiFlux.mixr)} g/kg × ${hiFlux.wind} mph` : '', hiFlux && hiFlux.mflux > 100 ? 'hot' : hiFlux && hiFlux.mflux > 60 ? 'warm' : ''),
-        card('Peak PoP', `${hiPoP.pop}%`, shortTimeLabel(hiPoP.start), hiPoP.pop >= 70 ? 'cool' : ''),
-        card('Peak Wind', `${hiWind.wind} mph`, `${hiWind.windDir || ''} near ${shortTimeLabel(hiWind.start)}`.trim(), hiWind.wind >= 30 ? 'warm' : ''),
-        card('Avg RH', `${avgRh}%`, `mean over next 24 h`, avgRh >= 80 ? 'cool' : avgRh <= 30 ? 'warm' : ''),
-        card('Biggest Wind Shift', hiShear ? `Δ${Math.abs(Math.round(hiShear.dwind))} mph/hr` : '—', hiShear ? `hourly delta near ${shortTimeLabel(hiShear.start)}` : '', hiShear && Math.abs(hiShear.dwind) > 12 ? 'warm' : ''),
-        card('Forecast Span', `${series.length} h`, `${fmtShortDate(series[0].start)} → ${fmtShortDate(series[series.length-1].start)}`, '')
+        officialCard('NWS WFO', office, p.forecastOffice || `https://www.weather.gov/${office}`, 'forecast office'),
+        officialCard('Gridpoint', grid, p.forecastGridData, 'NDFD grid data JSON'),
+        officialCard('Public Zone', zone, p.forecastZone, 'zone forecast metadata'),
+        officialCard('Fire Zone', fire, p.fireWeatherZone, 'fire-weather zone'),
+        officialCard('Radar Site', radar, radar !== '—' ? `https://radar.weather.gov/station/${radar}/standard` : null, 'NEXRAD station'),
+        officialCard('Hourly Grid', 'Forecast', p.forecastHourly, 'official hourly forecast')
     ];
     host.innerHTML = cards.join('');
-    function card(k, v, sub, cls) {
-        return `<div class="param-card ${cls}"><div class="k">${escapeHtml(k)}</div><div class="v">${escapeHtml(v)}</div><div class="sub">${escapeHtml(sub)}</div></div>`;
+}
+
+function officialCard(label, value, href, sub) {
+    const safeLabel = escapeHtml(label);
+    const safeValue = escapeHtml(value || '—');
+    const safeSub = escapeHtml(sub || '');
+    if (href) {
+        return `<a class="param-card official-card" href="${href}" target="_blank" rel="noopener">
+            <div class="k">${safeLabel}</div>
+            <div class="v small">${safeValue}</div>
+            <div class="sub">${safeSub}</div>
+        </a>`;
+    }
+    return `<div class="param-card official-card">
+        <div class="k">${safeLabel}</div>
+        <div class="v small">${safeValue}</div>
+        <div class="sub">${safeSub}</div>
+    </div>`;
+}
+
+async function loadForecastDiscussion() {
+    const textHost = $('#afd-text');
+    const metaHost = $('#afd-meta');
+    const openLink = $('#afd-open-link');
+    if (!textHost) return;
+    const office = officeCodeFromPoint();
+    if (!office) {
+        textHost.textContent = 'Forecast discussion unavailable until the point forecast resolves a Weather Forecast Office.';
+        if (metaHost) metaHost.textContent = 'no WFO';
+        return;
+    }
+
+    if (metaHost) metaHost.textContent = `${office} Area Forecast Discussion`;
+    textHost.textContent = 'Loading latest NWS Area Forecast Discussion...';
+    if (openLink) openLink.href = `https://forecast.weather.gov/product.php?site=${office}&issuedby=${office}&product=AFD`;
+
+    try {
+        const list = await nwsFetch(`https://api.weather.gov/products/types/AFD/locations/${office}`);
+        const products = list?.['@graph'] || list?.features || [];
+        const latest = products[0];
+        const productUrl = latest?.['@id'] || latest?.id || latest?.properties?.['@id'];
+        if (!productUrl) throw new Error('No AFD product URL');
+        const product = await nwsFetch(productUrl);
+        const text = product.productText || product.properties?.productText || '';
+        const issued = product.issuanceTime || product.properties?.issuanceTime || latest.issuanceTime || latest.properties?.issuanceTime;
+        if (!text) throw new Error('No AFD product text');
+        textHost.textContent = text.trim();
+        if (metaHost) {
+            const stamp = issued ? new Date(issued) : null;
+            metaHost.textContent = stamp ? `${office} AFD issued ${fmtTime(stamp)} (${fmtUTC(stamp)} UTC)` : `${office} AFD`;
+        }
+        if (openLink) openLink.href = productUrl;
+    } catch (e) {
+        console.warn('AFD fetch failed', e);
+        textHost.innerHTML = `NWS Area Forecast Discussion could not be loaded in-page. <a href="https://forecast.weather.gov/product.php?site=${office}&issuedby=${office}&product=AFD" target="_blank" rel="noopener">Open ${office} AFD directly</a>.`;
+        if (metaHost) metaHost.textContent = `${office} AFD unavailable`;
     }
 }
 
-function paramLabels(series) {
-    return series.map((x, i) => {
-        const h = x.start.getHours();
-        if (h === 0 || h === 12 || i === 0) {
-            return x.start.toLocaleDateString([], { weekday: 'short' }) + ' ' + pad(h) + ':00';
+/* =========================================================
+   UPPER-AIR LAB
+   ========================================================= */
+const UPPER_AIR_STATIONS = [
+    { id: 'ALB', wmo: '72518', name: 'Albany, NY', lat: 42.69, lon: -73.83, elev: 89 },
+    { id: 'APX', wmo: '72634', name: 'Gaylord, MI', lat: 44.91, lon: -84.72, elev: 446 },
+    { id: 'BIS', wmo: '72764', name: 'Bismarck, ND', lat: 46.77, lon: -100.75, elev: 506 },
+    { id: 'BMX', wmo: '72230', name: 'Birmingham, AL', lat: 33.16, lon: -86.77, elev: 178 },
+    { id: 'BOI', wmo: '72681', name: 'Boise, ID', lat: 43.57, lon: -116.22, elev: 871 },
+    { id: 'BRO', wmo: '72250', name: 'Brownsville, TX', lat: 25.90, lon: -97.43, elev: 7 },
+    { id: 'BUF', wmo: '72528', name: 'Buffalo, NY', lat: 42.94, lon: -78.73, elev: 215 },
+    { id: 'CAR', wmo: '72712', name: 'Caribou, ME', lat: 46.87, lon: -68.02, elev: 190 },
+    { id: 'CHS', wmo: '72208', name: 'Charleston, SC', lat: 32.90, lon: -80.04, elev: 15 },
+    { id: 'CRP', wmo: '72251', name: 'Corpus Christi, TX', lat: 27.77, lon: -97.50, elev: 13 },
+    { id: 'DDC', wmo: '72451', name: 'Dodge City, KS', lat: 37.76, lon: -99.97, elev: 790 },
+    { id: 'DNR', wmo: '72469', name: 'Denver, CO', lat: 39.76, lon: -104.87, elev: 1611 },
+    { id: 'DRT', wmo: '72261', name: 'Del Rio, TX', lat: 29.37, lon: -100.92, elev: 313 },
+    { id: 'DTX', wmo: '72632', name: 'Detroit / White Lake, MI', lat: 42.70, lon: -83.47, elev: 329 },
+    { id: 'DVN', wmo: '74455', name: 'Davenport, IA', lat: 41.61, lon: -90.58, elev: 229 },
+    { id: 'EPZ', wmo: '72364', name: 'El Paso / Santa Teresa, NM', lat: 31.87, lon: -106.70, elev: 1251 },
+    { id: 'FFC', wmo: '72215', name: 'Peachtree City, GA', lat: 33.36, lon: -84.57, elev: 246 },
+    { id: 'FGZ', wmo: '72376', name: 'Flagstaff, AZ', lat: 35.23, lon: -111.82, elev: 2192 },
+    { id: 'FWD', wmo: '72249', name: 'Fort Worth, TX', lat: 32.83, lon: -97.30, elev: 196 },
+    { id: 'GGW', wmo: '72768', name: 'Glasgow, MT', lat: 48.21, lon: -106.63, elev: 695 },
+    { id: 'GJT', wmo: '72476', name: 'Grand Junction, CO', lat: 39.12, lon: -108.53, elev: 1475 },
+    { id: 'GRB', wmo: '72645', name: 'Green Bay, WI', lat: 44.48, lon: -88.13, elev: 214 },
+    { id: 'GSO', wmo: '72317', name: 'Greensboro, NC', lat: 36.08, lon: -79.95, elev: 270 },
+    { id: 'GYX', wmo: '74389', name: 'Gray, ME', lat: 43.89, lon: -70.26, elev: 125 },
+    { id: 'IAD', wmo: '72403', name: 'Sterling, VA', lat: 38.98, lon: -77.47, elev: 85 },
+    { id: 'ILN', wmo: '72426', name: 'Wilmington, OH', lat: 39.42, lon: -83.82, elev: 317 },
+    { id: 'ILX', wmo: '74560', name: 'Lincoln, IL', lat: 40.15, lon: -89.34, elev: 178 },
+    { id: 'INL', wmo: '72747', name: 'International Falls, MN', lat: 48.57, lon: -93.40, elev: 361 },
+    { id: 'JAN', wmo: '72235', name: 'Jackson, MS', lat: 32.32, lon: -90.08, elev: 101 },
+    { id: 'KEY', wmo: '72201', name: 'Key West, FL', lat: 24.55, lon: -81.78, elev: 6 },
+    { id: 'LBF', wmo: '72562', name: 'North Platte, NE', lat: 41.13, lon: -100.68, elev: 849 },
+    { id: 'LCH', wmo: '72240', name: 'Lake Charles, LA', lat: 30.12, lon: -93.22, elev: 10 },
+    { id: 'LIX', wmo: '72233', name: 'Slidell, LA', lat: 30.34, lon: -89.82, elev: 9 },
+    { id: 'LKN', wmo: '72582', name: 'Elko, NV', lat: 40.86, lon: -115.74, elev: 1608 },
+    { id: 'MAF', wmo: '72265', name: 'Midland, TX', lat: 31.95, lon: -102.18, elev: 872 },
+    { id: 'MFL', wmo: '72202', name: 'Miami, FL', lat: 25.75, lon: -80.38, elev: 5 },
+    { id: 'MPX', wmo: '72649', name: 'Chanhassen, MN', lat: 44.85, lon: -93.57, elev: 287 },
+    { id: 'NKX', wmo: '72293', name: 'San Diego / Miramar, CA', lat: 32.85, lon: -117.12, elev: 147 },
+    { id: 'OAK', wmo: '72493', name: 'Oakland, CA', lat: 37.75, lon: -122.22, elev: 3 },
+    { id: 'OAX', wmo: '72558', name: 'Omaha / Valley, NE', lat: 41.32, lon: -96.37, elev: 350 },
+    { id: 'OKX', wmo: '72501', name: 'Upton, NY', lat: 40.87, lon: -72.86, elev: 20 },
+    { id: 'OUN', wmo: '72357', name: 'Norman, OK', lat: 35.23, lon: -97.47, elev: 357 },
+    { id: 'PIT', wmo: '72520', name: 'Pittsburgh, PA', lat: 40.53, lon: -80.22, elev: 360 },
+    { id: 'REV', wmo: '72489', name: 'Reno, NV', lat: 39.57, lon: -119.80, elev: 1516 },
+    { id: 'RIW', wmo: '72672', name: 'Riverton, WY', lat: 43.07, lon: -108.48, elev: 1688 },
+    { id: 'RNK', wmo: '72318', name: 'Blacksburg, VA', lat: 37.20, lon: -80.41, elev: 648 },
+    { id: 'SGF', wmo: '72440', name: 'Springfield, MO', lat: 37.24, lon: -93.40, elev: 389 },
+    { id: 'SLC', wmo: '72572', name: 'Salt Lake City, UT', lat: 40.77, lon: -111.97, elev: 1288 },
+    { id: 'SLE', wmo: '72694', name: 'Salem, OR', lat: 44.91, lon: -123.00, elev: 61 },
+    { id: 'TAE', wmo: '72214', name: 'Tallahassee, FL', lat: 30.45, lon: -84.30, elev: 21 },
+    { id: 'TFX', wmo: '72776', name: 'Great Falls, MT', lat: 47.46, lon: -111.38, elev: 1130 },
+    { id: 'TOP', wmo: '72456', name: 'Topeka, KS', lat: 39.07, lon: -95.62, elev: 270 },
+    { id: 'TUS', wmo: '72274', name: 'Tucson, AZ', lat: 32.23, lon: -110.95, elev: 779 },
+    { id: 'UNR', wmo: '72662', name: 'Rapid City, SD', lat: 44.07, lon: -103.21, elev: 1029 },
+    { id: 'VEF', wmo: '72388', name: 'Las Vegas, NV', lat: 36.05, lon: -115.18, elev: 693 }
+];
+
+const UPPER_AIR_STATE = {
+    selectedId: 'OKX',
+    selectedCycle: null,
+    archiveLoaded: false,
+    archiveCycles: [],
+    dataRequestId: 0
+};
+
+const SPC_SOUNDING_ROOT = 'https://www.spc.noaa.gov/exper/soundings';
+
+function spcObservedCycle(now = new Date()) {
+    const cycle = new Date(now);
+    cycle.setUTCMinutes(0, 0, 0);
+    const hour = now.getUTCHours() + now.getUTCMinutes() / 60;
+    if (hour >= 13) {
+        cycle.setUTCHours(12);
+    } else if (hour >= 1) {
+        cycle.setUTCHours(0);
+    } else {
+        cycle.setUTCDate(cycle.getUTCDate() - 1);
+        cycle.setUTCHours(12);
+    }
+    return cycle;
+}
+
+function spcCycleFolder(cycleDate) {
+    const yy = pad(cycleDate.getUTCFullYear() % 100);
+    return `${yy}${pad(cycleDate.getUTCMonth() + 1)}${pad(cycleDate.getUTCDate())}${pad(cycleDate.getUTCHours())}_OBS`;
+}
+
+function upperAirCycleLabel(cycleDate) {
+    return `${cycleDate.toISOString().slice(0, 10)} ${pad(cycleDate.getUTCHours())}Z`;
+}
+
+function cycleFromSpcFolder(folder) {
+    const m = String(folder || '').match(/^(\d{2})(\d{2})(\d{2})(\d{2})_OBS$/);
+    if (!m) return null;
+    return new Date(Date.UTC(2000 + Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4])));
+}
+
+function upperAirActiveCycle() {
+    if (!UPPER_AIR_STATE.selectedCycle) UPPER_AIR_STATE.selectedCycle = spcObservedCycle();
+    const date = UPPER_AIR_STATE.selectedCycle;
+    const folder = spcCycleFolder(date);
+    const base = `${SPC_SOUNDING_ROOT}/${folder}`;
+    return {
+        date,
+        folder,
+        label: upperAirCycleLabel(date),
+        base,
+        mapUrl: `${base}/sndgmap.gif`
+    };
+}
+
+function recentUpperAirCycles(count = 6) {
+    const cycles = [];
+    const start = spcObservedCycle();
+    for (let i = 0; i < count; i++) {
+        const d = new Date(start);
+        d.setUTCHours(start.getUTCHours() - i * 12);
+        cycles.push(d);
+    }
+    return cycles;
+}
+
+function spcStationUrl(st, ext = 'gif') {
+    const cycle = upperAirActiveCycle();
+    return `${cycle.base}/${st.id}.${ext}`;
+}
+
+function nextRaobCycleInfo(now = new Date()) {
+    const hour = now.getUTCHours() + now.getUTCMinutes() / 60;
+    let nextHour = hour < 12 ? 12 : 24;
+    if (hour < 0.5) nextHour = 0;
+    const next = new Date(now);
+    next.setUTCMinutes(0, 0, 0);
+    if (nextHour === 24) {
+        next.setUTCDate(next.getUTCDate() + 1);
+        next.setUTCHours(0);
+    } else {
+        next.setUTCHours(nextHour);
+    }
+    const diffHours = Math.max(0, (next - now) / 36e5);
+    const prevCycle = hour >= 12 ? '12Z' : '00Z';
+    return {
+        next,
+        nextCycle: `${pad(next.getUTCHours())}Z`,
+        prevCycle,
+        diffHours
+    };
+}
+
+function bearingDeg(lat1, lon1, lat2, lon2) {
+    const toRad = x => x * Math.PI / 180;
+    const toDeg = x => x * 180 / Math.PI;
+    const y = Math.sin(toRad(lon2 - lon1)) * Math.cos(toRad(lat2));
+    const x = Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
+        Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(toRad(lon2 - lon1));
+    return (toDeg(Math.atan2(y, x)) + 360) % 360;
+}
+
+function nearestUpperAirStations(limit = 5) {
+    return UPPER_AIR_STATIONS
+        .map(st => ({
+            ...st,
+            distanceKm: haversineKm(state.lat, state.lon, st.lat, st.lon),
+            bearing: bearingDeg(state.lat, state.lon, st.lat, st.lon)
+        }))
+        .sort((a, b) => a.distanceKm - b.distanceKm)
+        .slice(0, limit);
+}
+
+function initUpperAirEvents() {
+    if (initUpperAirEvents._wired) return;
+    initUpperAirEvents._wired = true;
+    const select = $('#upperair-station-select');
+    if (select) {
+        select.innerHTML = UPPER_AIR_STATIONS
+            .slice()
+            .sort((a, b) => a.id.localeCompare(b.id))
+            .map(st => `<option value="${st.id}">${st.id} / ${st.wmo} — ${escapeHtml(st.name)}</option>`)
+            .join('');
+        select.addEventListener('change', () => {
+            UPPER_AIR_STATE.selectedId = select.value;
+            renderUpperAirStationDetail();
+            renderUpperAirObservedProducts();
+            loadUpperAirSoundingData();
+            drawUpperAirMap();
+        });
+    }
+    $('#upperair-focus')?.addEventListener('click', () => {
+        const nearest = nearestUpperAirStations(1)[0];
+        if (nearest) {
+            UPPER_AIR_STATE.selectedId = nearest.id;
+            renderUpperAirLab();
         }
-        return pad(h) + ':00';
+    });
+    window.addEventListener('resize', () => {
+        const page = $('.page-view[data-page-view="upperair"]');
+        if (page?.classList.contains('active')) drawUpperAirMap();
     });
 }
 
-function renderParamThermo(series) {
-    const canvas = $('#param-thermo');
-    if (!canvas || typeof Chart === 'undefined') return;
-    if (PARAM_CHARTS.thermo) PARAM_CHARTS.thermo.destroy();
-    if (!series) return;
-    const labels = paramLabels(series);
-    PARAM_CHARTS.thermo = new Chart(canvas.getContext('2d'), {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [
-                { label: 'Temp (°F)',    data: series.map(x => x.tempF),    borderColor: '#ff5a7a', backgroundColor: 'rgba(255,90,122,0.08)', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.35 },
-                { label: 'Dewpoint',     data: series.map(x => x.td),       borderColor: '#7df0c8', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.35, borderDash: [3,3] },
-                { label: 'Wet-bulb',     data: series.map(x => x.tw),       borderColor: '#5eb8ff', borderWidth: 1.6, pointRadius: 0, fill: false, tension: 0.35 },
-                { label: 'Feels-like',   data: series.map(x => x.apparent), borderColor: '#ffb454', borderWidth: 1.4, pointRadius: 0, fill: false, tension: 0.35, borderDash: [1,2] }
-            ]
-        },
-        options: chartBase('°F')
+function renderUpperAirLab() {
+    initUpperAirEvents();
+    const nearest = nearestUpperAirStations(5);
+    if (nearest[0] && !UPPER_AIR_STATE.selectedId) UPPER_AIR_STATE.selectedId = nearest[0].id;
+    const select = $('#upperair-station-select');
+    if (select) select.value = UPPER_AIR_STATE.selectedId;
+    renderUpperAirClock();
+    renderUpperAirNearest(nearest);
+    renderUpperAirStationDetail();
+    renderUpperAirObservedProducts();
+    loadUpperAirSoundingData();
+    loadUpperAirArchiveCycles();
+    drawUpperAirMap(nearest);
+    const status = $('#upperair-status');
+    if (status) status.textContent = `from ${state.placeLabel || `${state.lat.toFixed(2)}, ${state.lon.toFixed(2)}`}`;
+}
+
+function renderUpperAirClock() {
+    const el = $('#upperair-clock');
+    if (!el) return;
+    const info = nextRaobCycleInfo();
+    const hours = Math.floor(info.diffHours);
+    const mins = Math.round((info.diffHours - hours) * 60);
+    el.innerHTML = `<span>${info.nextCycle}</span><small>next launch ${hours}h ${mins}m</small>`;
+}
+
+function renderUpperAirNearest(nearest) {
+    const host = $('#upperair-nearest');
+    const meta = $('#upperair-nearest-meta');
+    if (!host) return;
+    if (meta) meta.textContent = state.placeLabel || `${state.lat.toFixed(2)}, ${state.lon.toFixed(2)}`;
+    host.innerHTML = nearest.slice(0, 4).map((st, idx) => `
+        <div class="station-card ${idx === 0 ? 'primary' : ''}">
+            <div class="station-title"><span>${escapeHtml(st.id)} / ${escapeHtml(st.wmo)}</span><span>${Math.round(st.distanceKm)} km</span></div>
+            <div class="station-meta">${escapeHtml(st.name)} · ${degToCompass(st.bearing)} ${Math.round(st.bearing)}° · ${st.elev.toLocaleString()} m MSL</div>
+        </div>
+    `).join('');
+}
+
+function renderUpperAirCycleStrip(cycles = recentUpperAirCycles()) {
+    const host = $('#upperair-cycle-strip');
+    if (!host) return;
+    const active = upperAirActiveCycle();
+    host.innerHTML = cycles.slice(0, 8).map(cycleDate => {
+        const folder = spcCycleFolder(cycleDate);
+        const activeClass = folder === active.folder ? ' active' : '';
+        const label = `${pad(cycleDate.getUTCMonth() + 1)}/${pad(cycleDate.getUTCDate())} ${pad(cycleDate.getUTCHours())}Z`;
+        return `<button class="cycle-chip${activeClass}" type="button" data-cycle="${folder}">${label}</button>`;
+    }).join('');
+    $$('#upperair-cycle-strip .cycle-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const cycle = cycleFromSpcFolder(btn.dataset.cycle);
+            if (!cycle) return;
+            UPPER_AIR_STATE.selectedCycle = cycle;
+            renderUpperAirStationDetail();
+            renderUpperAirObservedProducts();
+            loadUpperAirSoundingData();
+        });
     });
 }
 
-function renderParamFlux(series) {
-    const canvas = $('#param-flux');
-    if (!canvas || typeof Chart === 'undefined') return;
-    if (PARAM_CHARTS.flux) PARAM_CHARTS.flux.destroy();
-    if (!series) return;
-    const labels = paramLabels(series);
-    PARAM_CHARTS.flux = new Chart(canvas.getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels,
-            datasets: [
-                { type: 'bar',  label: 'Moisture flux proxy', data: series.map(x => x.mflux), backgroundColor: 'rgba(125,240,200,0.35)', borderColor: 'rgba(125,240,200,0.7)', borderWidth: 1, yAxisID: 'y' },
-                { type: 'line', label: 'Pressure tendency proxy (°F/h)', data: series.map(x => x.ptend), borderColor: '#b48cff', borderWidth: 1.6, pointRadius: 0, yAxisID: 'y1', tension: 0.35 },
-                { type: 'line', label: 'Wind Δ (mph/h)', data: series.map(x => x.dwind), borderColor: '#ffb454', borderWidth: 1.2, pointRadius: 0, yAxisID: 'y1', tension: 0.35, borderDash: [2,2] }
-            ]
-        },
-        options: chartBase('g·mph/kg', 'Δ')
-    });
+async function loadUpperAirArchiveCycles() {
+    if (UPPER_AIR_STATE.archiveLoaded) return;
+    UPPER_AIR_STATE.archiveLoaded = true;
+    renderUpperAirCycleStrip();
+    try {
+        const res = await fetch(`${SPC_SOUNDING_ROOT}/`, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`SPC archive ${res.status}`);
+        const html = await res.text();
+        const folders = [...html.matchAll(/href=["'](\d{6}(?:00|12)_OBS)\/?["']/g)]
+            .map(m => m[1]);
+        const unique = [...new Set(folders)]
+            .map(folder => ({ folder, date: cycleFromSpcFolder(folder) }))
+            .filter(x => x.date)
+            .sort((a, b) => b.date - a.date)
+            .slice(0, 8);
+        if (unique.length) {
+            UPPER_AIR_STATE.archiveCycles = unique.map(x => x.date);
+            if (!UPPER_AIR_STATE.selectedCycle) UPPER_AIR_STATE.selectedCycle = unique[0].date;
+            renderUpperAirCycleStrip(UPPER_AIR_STATE.archiveCycles);
+        }
+    } catch (err) {
+        console.warn('SPC archive cycle list unavailable', err);
+    }
 }
+
+function renderUpperAirObservedProducts() {
+    const st = UPPER_AIR_STATIONS.find(x => x.id === UPPER_AIR_STATE.selectedId) || nearestUpperAirStations(1)[0];
+    if (!st) return;
+    const cycle = upperAirActiveCycle();
+    renderUpperAirCycleStrip(UPPER_AIR_STATE.archiveCycles.length ? UPPER_AIR_STATE.archiveCycles : recentUpperAirCycles());
+
+    const meta = $('#upperair-cycle-meta');
+    if (meta) meta.textContent = `SPC ${cycle.label}`;
+    const cycleLink = $('#upperair-cycle-link');
+    if (cycleLink) cycleLink.href = `${cycle.base}/`;
+    const mapImg = $('#upperair-sounding-map');
+    if (mapImg) {
+        mapImg.alt = `SPC observed sounding station map for ${cycle.label}`;
+        mapImg.src = cycle.mapUrl;
+    }
+
+    const soundingMeta = $('#upperair-sounding-meta');
+    if (soundingMeta) soundingMeta.textContent = `${st.id} / ${st.wmo} · ${cycle.label}`;
+    const stationGif = spcStationUrl(st, 'gif');
+    const stationTxt = spcStationUrl(st, 'txt');
+    const stationLink = $('#upperair-station-sounding-link');
+    const textLink = $('#upperair-text-link');
+    if (stationLink) stationLink.href = stationGif;
+    if (textLink) textLink.href = stationTxt;
+    const fallback = $('#upperair-sounding-fallback');
+    const stationImg = $('#upperair-station-sounding');
+    if (fallback) fallback.hidden = true;
+    if (stationImg) {
+        stationImg.hidden = false;
+        stationImg.alt = `${st.id} ${st.name} observed sounding for ${cycle.label}`;
+        stationImg.onerror = () => {
+            stationImg.hidden = true;
+            if (fallback) fallback.hidden = false;
+        };
+        stationImg.onload = () => {
+            stationImg.hidden = false;
+            if (fallback) fallback.hidden = true;
+        };
+        stationImg.src = stationGif;
+    }
+}
+
+function parseSpcSoundingText(text) {
+    const title = (text.match(/%TITLE%\s*([\s\S]*?)\n\s*\n/)?.[1] || '').trim().replace(/\s+/g, ' ');
+    const raw = text.match(/%RAW%\s*([\s\S]*?)%END%/)?.[1] || '';
+    const rows = raw.split(/\n+/).map(line => {
+        const vals = line.split(',').map(v => Number(v.trim()));
+        if (vals.length < 6 || vals.some(Number.isNaN)) return null;
+        const [pressure, height, temp, dewpoint, windDir, windSpeed] = vals;
+        return { pressure, height, temp, dewpoint, windDir, windSpeed };
+    }).filter(Boolean);
+
+    const metric = (label, re, unit = '') => {
+        const m = text.match(re);
+        if (!m) return null;
+        const value = m[1].trim().replace(/\s+/g, ' ');
+        return { label, value: `${value}${unit}`, source: 'SPC NSHARP text' };
+    };
+    const metrics = [
+        metric('PWAT', /Precip Water:\s*([0-9.+-]+)/i, ' in'),
+        metric('0-6 km shear', /0-6 km BWD\s+([0-9.+-]+)/i, ' kt'),
+        metric('0-3 km SRH', /0-3 km SRH\s+([0-9.+-]+)/i, ' m2/s2'),
+        metric('MLCAPE', /MLCAPE:\s*([0-9.+-]+)/i, ' J/kg'),
+        metric('WBZ', /WBZ height:\s*([0-9.+-]+)/i, ' m'),
+        metric('700-500 lapse', /700-500mb\s+[0-9.+-]+\s+C\s+([0-9.+-]+\s+C\/km)/i, '')
+    ].filter(Boolean);
+
+    return { title, rows, metrics };
+}
+
+function nearestSoundingLevel(rows, pressure) {
+    return rows
+        .filter(r => r.pressure > 0 && r.temp > -200 && r.height > -200)
+        .sort((a, b) => Math.abs(a.pressure - pressure) - Math.abs(b.pressure - pressure))[0];
+}
+
+function computedUpperAirMetrics(rows, parsedMetrics) {
+    const byLabel = new Map(parsedMetrics.map(m => [m.label, m]));
+    const level500 = nearestSoundingLevel(rows, 500);
+    const level700 = nearestSoundingLevel(rows, 700);
+    const level850 = nearestSoundingLevel(rows, 850);
+    const lapse = level700 && level500
+        ? ((level700.temp - level500.temp) / Math.max(1, (level500.height - level700.height) / 1000)).toFixed(1)
+        : null;
+    const out = [];
+    if (level500) out.push({ label: '500 mb T', value: `${level500.temp.toFixed(1)} C`, source: `${Math.round(level500.height)} m` });
+    if (level850) out.push({ label: '850 mb Td', value: `${level850.dewpoint.toFixed(1)} C`, source: `${Math.round(level850.height)} m` });
+    if (lapse) out.push({ label: '700-500 lapse', value: `${lapse} C/km`, source: 'computed from SPC levels' });
+    ['PWAT', '0-6 km shear', '0-3 km SRH', 'MLCAPE', 'WBZ'].forEach(label => {
+        if (out.length < 6 && byLabel.has(label)) out.push(byLabel.get(label));
+    });
+    return out.slice(0, 6);
+}
+
+function pathFromRows(rows, xFn, yFn, isValid) {
+    return rows
+        .filter(isValid)
+        .map((r, idx) => `${idx ? 'L' : 'M'} ${xFn(r).toFixed(1)} ${yFn(r.pressure).toFixed(1)}`)
+        .join(' ');
+}
+
+function drawUpperAirProfile(parsed) {
+    const svg = $('#upperair-profile-chart');
+    const metricsHost = $('#upperair-metrics');
+    if (!svg) return;
+    const rows = parsed.rows.filter(r => r.pressure >= 100 && r.pressure <= 1050);
+    if (!rows.length) {
+        svg.innerHTML = `<text x="24" y="46" fill="#9aa7bd" font-family="JetBrains Mono, monospace" font-size="18">SPC text data unavailable for this station/cycle.</text>`;
+        if (metricsHost) metricsHost.innerHTML = '<div class="alert-empty">No raw profile data available.</div>';
+        return;
+    }
+
+    const w = 760;
+    const h = 430;
+    const top = 28;
+    const bottom = 42;
+    const thermo = { l: 50, r: 475 };
+    const wind = { l: 545, r: 720 };
+    const pMin = 100;
+    const pMax = 1050;
+    const tempMin = -80;
+    const tempMax = 35;
+    const windMax = Math.max(100, Math.ceil(Math.max(...rows.map(r => r.windSpeed > -100 ? r.windSpeed : 0)) / 20) * 20);
+    const y = p => top + (Math.log(p) - Math.log(pMin)) / (Math.log(pMax) - Math.log(pMin)) * (h - top - bottom);
+    const xTemp = t => thermo.l + (t - tempMin) / (tempMax - tempMin) * (thermo.r - thermo.l);
+    const xWind = s => wind.l + Math.max(0, Math.min(windMax, s)) / windMax * (wind.r - wind.l);
+    const levels = [1000, 925, 850, 700, 500, 300, 200, 100];
+    const temps = [-80, -60, -40, -20, 0, 20];
+    const windTicks = [0, 25, 50, 75, 100].filter(v => v <= windMax);
+    const grid = [
+        ...levels.map(p => `<line x1="${thermo.l}" y1="${y(p).toFixed(1)}" x2="${wind.r}" y2="${y(p).toFixed(1)}" stroke="rgba(154,167,189,0.13)"/><text x="12" y="${(y(p) + 4).toFixed(1)}" fill="#7b8aa3" font-size="11" font-family="JetBrains Mono, monospace">${p}</text>`),
+        ...temps.map(t => `<line x1="${xTemp(t).toFixed(1)}" y1="${top}" x2="${xTemp(t).toFixed(1)}" y2="${h - bottom}" stroke="rgba(154,167,189,0.10)"/><text x="${(xTemp(t) - 9).toFixed(1)}" y="${h - 16}" fill="#7b8aa3" font-size="10" font-family="JetBrains Mono, monospace">${t}</text>`),
+        ...windTicks.map(s => `<line x1="${xWind(s).toFixed(1)}" y1="${top}" x2="${xWind(s).toFixed(1)}" y2="${h - bottom}" stroke="rgba(255,180,84,0.09)"/><text x="${(xWind(s) - 8).toFixed(1)}" y="${h - 16}" fill="#9b8464" font-size="10" font-family="JetBrains Mono, monospace">${s}</text>`)
+    ].join('');
+    const tempPath = pathFromRows(rows, r => xTemp(r.temp), y, r => r.temp > -200);
+    const dewPath = pathFromRows(rows, r => xTemp(r.dewpoint), y, r => r.dewpoint > -200);
+    const windPath = pathFromRows(rows, r => xWind(r.windSpeed), y, r => r.windSpeed > -100);
+    svg.innerHTML = `
+        <rect x="0" y="0" width="${w}" height="${h}" fill="transparent"/>
+        ${grid}
+        <line x1="${thermo.l}" y1="${top}" x2="${thermo.l}" y2="${h - bottom}" stroke="rgba(154,167,189,0.28)"/>
+        <line x1="${thermo.l}" y1="${h - bottom}" x2="${thermo.r}" y2="${h - bottom}" stroke="rgba(154,167,189,0.28)"/>
+        <line x1="${wind.l}" y1="${top}" x2="${wind.l}" y2="${h - bottom}" stroke="rgba(255,180,84,0.22)"/>
+        <line x1="${wind.l}" y1="${h - bottom}" x2="${wind.r}" y2="${h - bottom}" stroke="rgba(255,180,84,0.22)"/>
+        <path d="${tempPath}" fill="none" stroke="#ff6b6b" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="${dewPath}" fill="none" stroke="#49d5ff" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="${windPath}" fill="none" stroke="#ffb454" stroke-width="2.2" stroke-linejoin="round"/>
+        <text x="${thermo.l}" y="18" fill="#e6edf7" font-size="12" font-family="JetBrains Mono, monospace">Temp / Dewpoint (C)</text>
+        <text x="${wind.l}" y="18" fill="#ffb454" font-size="12" font-family="JetBrains Mono, monospace">Wind speed (kt)</text>
+        <text x="12" y="${h - 10}" fill="#7b8aa3" font-size="10" font-family="JetBrains Mono, monospace">pressure (mb)</text>
+        <circle cx="255" cy="17" r="4" fill="#ff6b6b"/><text x="265" y="21" fill="#9aa7bd" font-size="10" font-family="JetBrains Mono, monospace">T</text>
+        <circle cx="292" cy="17" r="4" fill="#49d5ff"/><text x="302" y="21" fill="#9aa7bd" font-size="10" font-family="JetBrains Mono, monospace">Td</text>
+    `;
+
+    if (metricsHost) {
+        const metrics = computedUpperAirMetrics(rows, parsed.metrics);
+        metricsHost.innerHTML = metrics.map(m => `
+            <div class="upperair-metric">
+                <div class="k">${escapeHtml(m.label)}</div>
+                <div class="v">${escapeHtml(m.value)}</div>
+                <div class="sub">${escapeHtml(m.source || '')}</div>
+            </div>
+        `).join('');
+    }
+}
+
+async function loadUpperAirSoundingData() {
+    const st = UPPER_AIR_STATIONS.find(x => x.id === UPPER_AIR_STATE.selectedId) || nearestUpperAirStations(1)[0];
+    if (!st) return;
+    const reqId = ++UPPER_AIR_STATE.dataRequestId;
+    const metricsHost = $('#upperair-metrics');
+    const svg = $('#upperair-profile-chart');
+    if (metricsHost) {
+        metricsHost.innerHTML = '<div class="skeleton" style="height:48px"></div><div class="skeleton" style="height:48px"></div><div class="skeleton" style="height:48px"></div>';
+    }
+    if (svg) {
+        svg.innerHTML = `<text x="24" y="46" fill="#9aa7bd" font-family="JetBrains Mono, monospace" font-size="18">Loading SPC text profile...</text>`;
+    }
+    try {
+        const res = await fetch(spcStationUrl(st, 'txt'), { cache: 'no-store' });
+        if (!res.ok) throw new Error(`SPC text ${res.status}`);
+        const text = await res.text();
+        if (reqId !== UPPER_AIR_STATE.dataRequestId) return;
+        drawUpperAirProfile(parseSpcSoundingText(text));
+    } catch (err) {
+        console.warn('SPC sounding text unavailable', err);
+        if (reqId !== UPPER_AIR_STATE.dataRequestId) return;
+        if (svg) {
+            svg.innerHTML = `<text x="24" y="46" fill="#9aa7bd" font-family="JetBrains Mono, monospace" font-size="18">Raw SPC text is unavailable for this station/cycle.</text>`;
+        }
+        if (metricsHost) metricsHost.innerHTML = '<div class="alert-empty">Open the SPC sounding link for the posted product.</div>';
+    }
+}
+
+function renderUpperAirStationDetail() {
+    const host = $('#upperair-station-detail');
+    const st = UPPER_AIR_STATIONS.find(x => x.id === UPPER_AIR_STATE.selectedId) || nearestUpperAirStations(1)[0];
+    if (!host || !st) return;
+    const dist = haversineKm(state.lat, state.lon, st.lat, st.lon);
+    const brg = bearingDeg(state.lat, state.lon, st.lat, st.lon);
+    const stationGif = spcStationUrl(st, 'gif');
+    const stationTxt = spcStationUrl(st, 'txt');
+    host.innerHTML = `
+        <strong>${escapeHtml(st.id)} / ${escapeHtml(st.wmo)} — ${escapeHtml(st.name)}</strong><br>
+        ${st.lat.toFixed(2)}°, ${st.lon.toFixed(2)}° · ${st.elev.toLocaleString()} m MSL<br>
+        ${Math.round(dist)} km ${degToCompass(brg)} of selected dashboard point.
+        <div class="station-link-row">
+            <a class="btn btn-ghost" href="${stationGif}" target="_blank" rel="noopener">SPC skew-T</a>
+            <a class="btn btn-ghost" href="${stationTxt}" target="_blank" rel="noopener">SPC text</a>
+            <a class="btn btn-ghost" href="https://www.ready.noaa.gov/READY_sonde.php" target="_blank" rel="noopener">READY ${escapeHtml(st.id)}</a>
+            <a class="btn btn-ghost" href="https://mag.ncep.noaa.gov/sounding-model-area.php/1000" target="_blank" rel="noopener">MAG forecast soundings</a>
+        </div>
+    `;
+}
+
+function drawUpperAirMap(nearest = nearestUpperAirStations(5)) {
+    const canvas = $('#upperair-map');
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const width = Math.max(640, Math.round(rect.width || 900));
+    const height = Math.round(width * 0.5625);
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.height = height + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+
+    const bounds = { west: -126, east: -66, south: 24, north: 50 };
+    const padMap = { l: 42, r: 28, t: 28, b: 34 };
+    const project = (lat, lon) => {
+        const x = padMap.l + (lon - bounds.west) / (bounds.east - bounds.west) * (width - padMap.l - padMap.r);
+        const y = padMap.t + (bounds.north - lat) / (bounds.north - bounds.south) * (height - padMap.t - padMap.b);
+        return { x, y };
+    };
+
+    ctx.fillStyle = 'rgba(5, 7, 13, 0.92)';
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.strokeStyle = 'rgba(120,150,200,0.12)';
+    ctx.lineWidth = 1;
+    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.fillStyle = '#6b7a93';
+    for (let lon = -125; lon <= -70; lon += 5) {
+        const p1 = project(bounds.south, lon);
+        const p2 = project(bounds.north, lon);
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+        ctx.fillText(`${Math.abs(lon)}W`, p1.x - 12, height - 12);
+    }
+    for (let lat = 25; lat <= 50; lat += 5) {
+        const p1 = project(lat, bounds.west);
+        const p2 = project(lat, bounds.east);
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+        ctx.fillText(`${lat}N`, 8, p1.y + 3);
+    }
+
+    const selected = UPPER_AIR_STATIONS.find(st => st.id === UPPER_AIR_STATE.selectedId);
+    const nearestIds = new Set(nearest.map(st => st.id));
+    const currentInBounds = state.lon >= bounds.west && state.lon <= bounds.east && state.lat >= bounds.south && state.lat <= bounds.north;
+    const current = project(state.lat, state.lon);
+
+    if (currentInBounds) {
+        nearest.slice(0, 4).forEach(st => {
+            const p = project(st.lat, st.lon);
+            ctx.strokeStyle = 'rgba(125,240,200,0.20)';
+            ctx.lineWidth = st.id === nearest[0].id ? 2 : 1;
+            ctx.beginPath();
+            ctx.moveTo(current.x, current.y);
+            ctx.lineTo(p.x, p.y);
+            ctx.stroke();
+        });
+    }
+
+    UPPER_AIR_STATIONS.forEach(st => {
+        const p = project(st.lat, st.lon);
+        const isSelected = selected?.id === st.id;
+        const isNearest = nearestIds.has(st.id);
+        ctx.fillStyle = isSelected ? '#ffb454' : isNearest ? '#7df0c8' : '#5eb8ff';
+        ctx.strokeStyle = 'rgba(5,7,13,0.92)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, isSelected ? 6 : isNearest ? 5 : 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        if (isSelected || st.id === nearest[0]?.id) {
+            ctx.fillStyle = '#e6edf7';
+            ctx.font = '11px JetBrains Mono, monospace';
+            const nearPoint = currentInBounds && haversineKm(state.lat, state.lon, st.lat, st.lon) < 140;
+            ctx.fillText(st.id, p.x + 8, p.y + (nearPoint ? -8 : 4));
+        }
+    });
+
+    if (currentInBounds) {
+        ctx.fillStyle = '#ff5a7a';
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(current.x, current.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#e6edf7';
+        ctx.font = '11px JetBrains Mono, monospace';
+        const stationIsClose = selected && haversineKm(state.lat, state.lon, selected.lat, selected.lon) < 140;
+        ctx.fillText('POINT', current.x + (stationIsClose ? -52 : 10), current.y + (stationIsClose ? 18 : 4));
+    }
+
+    ctx.fillStyle = '#9aa7bd';
+    ctx.font = '12px JetBrains Mono, monospace';
+    ctx.fillText('U.S. RAOB station network · nearest stations highlighted', 18, 20);
+}
+
+PAGE_INIT.upperair = () => {
+    renderUpperAirLab();
+};
 
 function chartBase(leftTitle, rightTitle) {
     return {
@@ -1878,153 +2442,6 @@ function chartBase(leftTitle, rightTitle) {
     };
 }
 
-function renderParamTimeHeight(series) {
-    const canvas = $('#param-timeheight');
-    if (!canvas || !series) return;
-    // Draw a time (columns) × layer (rows) heatmap on a canvas
-    const dpr = window.devicePixelRatio || 1;
-    const cssWidth = canvas.clientWidth || canvas.parentElement.clientWidth || 800;
-    const cssHeight = 260;
-    canvas.width = cssWidth * dpr;
-    canvas.height = cssHeight * dpr;
-    canvas.style.height = cssHeight + 'px';
-    const ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, cssWidth, cssHeight);
-
-    const pad = { l: 110, r: 14, t: 10, b: 28 };
-    const plotW = cssWidth - pad.l - pad.r;
-    const plotH = cssHeight - pad.t - pad.b;
-    const n = series.length;
-    const cellW = plotW / n;
-
-    // rows — higher index = higher in metaphorical column
-    const rows = [
-        { label: 'Surface T',      get: x => x.tempF,    min: 0, max: 100, color: 'hot' },
-        { label: 'Dewpoint',       get: x => x.td,       min: 0, max: 80, color: 'cool' },
-        { label: 'Wet-bulb',       get: x => x.tw,       min: 0, max: 90, color: 'cool' },
-        { label: 'Feels-like',     get: x => x.apparent, min: 0, max: 110, color: 'hot' },
-        { label: 'RH (%)',         get: x => x.rh,       min: 0, max: 100, color: 'cool' },
-        { label: 'Dew Depression', get: x => x.dd,       min: 0, max: 40, color: 'warm' },
-        { label: 'Wind (mph)',     get: x => x.wind,     min: 0, max: 50, color: 'warm' },
-        { label: 'PoP (%)',        get: x => x.pop,      min: 0, max: 100, color: 'accent' },
-        { label: 'Moist. Flux',    get: x => x.mflux,    min: 0, max: 200, color: 'cool' }
-    ];
-    const cellH = plotH / rows.length;
-
-    // Color ramps
-    function ramp(frac, kind) {
-        frac = Math.max(0, Math.min(1, frac));
-        if (kind === 'hot') {
-            // dark->orange->red
-            const r = Math.round(20 + 235 * frac);
-            const g = Math.round(30 + 120 * (1 - Math.abs(frac - 0.5) * 2));
-            const b = Math.round(60 * (1 - frac));
-            return `rgba(${r},${g},${b},0.9)`;
-        }
-        if (kind === 'cool') {
-            const r = Math.round(30 + 100 * (1 - frac));
-            const g = Math.round(60 + 180 * frac);
-            const b = Math.round(120 + 135 * frac);
-            return `rgba(${r},${g},${b},0.9)`;
-        }
-        if (kind === 'warm') {
-            const r = Math.round(50 + 200 * frac);
-            const g = Math.round(50 + 150 * frac);
-            const b = Math.round(30 + 40 * frac);
-            return `rgba(${r},${g},${b},0.85)`;
-        }
-        // accent
-        const r = Math.round(30 + 64 * frac);
-        const g = Math.round(60 + 120 * frac);
-        const b = Math.round(180 + 75 * frac);
-        return `rgba(${r},${g},${b},0.92)`;
-    }
-
-    // Draw cells
-    rows.forEach((row, ri) => {
-        for (let ci = 0; ci < n; ci++) {
-            const v = row.get(series[ci]);
-            if (v == null || isNaN(v)) continue;
-            const frac = (v - row.min) / (row.max - row.min);
-            ctx.fillStyle = ramp(frac, row.color);
-            ctx.fillRect(pad.l + ci * cellW, pad.t + ri * cellH, Math.max(1, cellW - 0.5), cellH - 1);
-        }
-        // row label
-        ctx.fillStyle = '#9aa7bd';
-        ctx.font = '11px JetBrains Mono, monospace';
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'right';
-        ctx.fillText(row.label, pad.l - 8, pad.t + ri * cellH + cellH / 2);
-    });
-
-    // x-axis labels (every 6 hours)
-    ctx.fillStyle = '#6b7a93';
-    ctx.font = '10px JetBrains Mono, monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    for (let ci = 0; ci < n; ci++) {
-        if (ci % 6 !== 0) continue;
-        const d = series[ci].start;
-        const h = d.getHours();
-        const lbl = (h === 0) ? d.toLocaleDateString([], { weekday: 'short' }) : pad(h) + ':00';
-        ctx.fillText(lbl, pad.l + ci * cellW + cellW / 2, pad.t + plotH + 4);
-    }
-
-    // Frame
-    ctx.strokeStyle = 'rgba(120,150,200,0.16)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(pad.l, pad.t, plotW, plotH);
-}
-
-function renderParamConvective(series) {
-    const canvas = $('#param-convective');
-    if (!canvas || typeof Chart === 'undefined') return;
-    if (PARAM_CHARTS.conv) PARAM_CHARTS.conv.destroy();
-    if (!series) return;
-    const labels = paramLabels(series);
-    // Proxies normalized 0-100
-    const moisture = series.map(x => {
-        if (x.td == null) return 0;
-        // map 40°F -> 0, 75°F -> 100
-        return Math.max(0, Math.min(100, (x.td - 40) / 35 * 100));
-    });
-    const instability = series.map(x => {
-        if (x.tempF == null || x.td == null) return 0;
-        // higher sfc T with low dewpoint depression and warm apparent = more "buoyant"
-        const dd = Math.max(0, x.dd ?? 40);
-        const app = x.apparent ?? x.tempF;
-        const score = (app - 60) * 1.4 - dd * 1.2;
-        return Math.max(0, Math.min(100, score));
-    });
-    const shear = series.map(x => {
-        return Math.max(0, Math.min(100, Math.abs(x.dwind || 0) * 4 + x.wind * 1.0));
-    });
-    const composite = series.map((x, i) => Math.round(0.45 * moisture[i] + 0.35 * instability[i] + 0.20 * shear[i]));
-
-    PARAM_CHARTS.conv = new Chart(canvas.getContext('2d'), {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [
-                { label: 'Moisture proxy',      data: moisture,    borderColor: '#7df0c8', borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0.35 },
-                { label: 'Instability proxy',   data: instability, borderColor: '#ff5a7a', borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0.35 },
-                { label: 'Shear proxy',         data: shear,       borderColor: '#b48cff', borderWidth: 1.5, pointRadius: 0, fill: false, tension: 0.35 },
-                { label: 'Composite',           data: composite,   borderColor: '#ffb454', borderWidth: 2.2, pointRadius: 0, fill: 'origin', backgroundColor: 'rgba(255,180,84,0.10)', tension: 0.35 }
-            ]
-        },
-        options: chartBase('0–100 proxy')
-    });
-}
-
-function renderParamsLab() {
-    const series = buildParamSeries();
-    renderParamCards(series);
-    renderParamThermo(series);
-    renderParamFlux(series);
-    renderParamConvective(series);
-    renderParamTimeHeight(series);
-}
 /* =========================================================
    SPACE WEATHER
    NOAA SWPC: planetary K-index JSON + real-time solar wind
@@ -2473,7 +2890,7 @@ function initWaveWatch() {
     renderWaveWatch();
 }
 
-/* Reload marine whenever the user changes location */
+/* Reload location-dependent workspaces whenever the user changes location */
 const _origRefresh = refreshLocation;
 refreshLocation = async function() {
     await _origRefresh.apply(this, arguments);
@@ -2481,6 +2898,10 @@ refreshLocation = async function() {
     if (marinePage?.classList.contains('active')) {
         PAGE_INIT.marine._loaded = false;
         PAGE_INIT.marine();
+    }
+    const upperAirPage = $('.page-view[data-page-view="upperair"]');
+    if (upperAirPage?.classList.contains('active')) {
+        renderUpperAirLab();
     }
 };
 

@@ -7,9 +7,12 @@ Open `index.html` directly in a browser. No API keys, installs, build tools, or 
 ## What Works
 
 - NWS point forecast, observations, hourly forecast, and alerts from `api.weather.gov`
+- Official guidance desk with NWS Area Forecast Discussion text, point/grid metadata, and source links to SPC, WPC, NDFD, and NBM products
+- Upper-Air Lab with a self-rendered RAOB network map, nearest radiosonde-site geodesics, launch-cycle timing, and official SPC/NOAA/NCEP sounding resources
 - RainViewer radar map with live frame controls
 - GOES-East satellite imagery and satellite loop pages from NOAA STAR
 - NCEP MAG model graphics with preloaded forecast hours
+- Model intelligence board for RRFS, HRRRCast, HAFS, HREF, and high-impact guidance context
 - NOAA SWPC Kp, solar wind, aurora, and GOES X-ray flux charts
 - Marine buoy observations through CORS-readable `api.weather.gov` station data
 - GFS-WAVE significant wave-height graphics from NCEP MAG
@@ -38,6 +41,7 @@ For quick testing, open:
 
 ```text
 index.html
+index.html?page=upperair
 index.html?page=satslider
 index.html?page=space
 index.html?page=marine
